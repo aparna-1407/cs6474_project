@@ -11,7 +11,7 @@ PoseMaster Fusion is a diffusion based model for 2D human pose retargeting. Spec
 This image can better explain what this model aims to accomplish- given a reference pose that can either be extracted from a doodle or a reference image, the model aims to translate that pose into the source image provided. PoseMaster Fusion allows you to control style in addition to just poses using text prompts to influence the style of your generated image.
 
 <p align="center">
-<img width="505" alt="image" src="https://github.com/aparna-1407/cs6474_project/assets/93538009/32fcffa9-6577-4d79-a40e-5f878a7b7bfe">
+<img width="378" alt="image" src="https://github.com/aparna-1407/cs6474_project/assets/93538009/32fcffa9-6577-4d79-a40e-5f878a7b7bfe">
 </p>
 
 ### Why is there a need for such a model?
@@ -19,7 +19,9 @@ This exploration is not just a technical endeavor but a response to the growing 
 
 The challenges in creating a cohesive system that can accurately interpret human poses, translate them into a different context while retaining the original image's essence, and produce results that are both visually stunning and contextually appropriate are immense. Through PoseMaster Fusion, we attempt to create a model that generalizes well and enables robust appearance control while leveraging the prior knowledge of Stable Diffusion models and ControlNet.
 </p>
+
 ## Previous Work
+
 
 
 
