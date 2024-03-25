@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+# PoseMaster Fusion: Transforming Images by capturing Pose Dynamics
 ## Introduction
 <p align="justify">
 PoseMaster Fusion is a diffusion based model for 2D human pose retargeting. Specifically, given a reference image, the model aims to generate a set of new images of the person by controlling the poses and other features such as the style while keeping the identity unchanged. At its core, this project seeks to revolutionize the way we interact with and manipulate images, providing users with unprecedented control over the pose dynamics of their digital images. By leveraging the ability of control nets to understand and map poses from reference images or doodles, and harmonizing this with the generative capabilities of stable diffusion models, Pose Master Fusion attempts to synthesize images disentangling appearance from pose and style. 
@@ -22,9 +23,16 @@ The challenges in creating a cohesive system that can accurately interpret human
 </p>
 
 ## Previous Work
+### Controlled Image Synthesis
+<p>
+[1] **"MasaCtrl: Tuning-Free Mutual Self-Attention Control for Consistent Image Synthesis and Editing" by Cao et al.** propose to change pose, view, structures, and non-rigid variances of the source image while maintaining the characteristics, texture, and identity by converting existing self attention in diffusion models into mutual self-attention, so that it can query correlated local contents and textures from source images for consistency. To further alleviate the query confusion between foreground and background, they propose a mask-guided mutual self-attention strategy, where the mask can be easily extracted from the cross-attention maps in diffusion models to separate foreground and background. Thye change the non-rigid attributes (e.g., changing object pose) using only text prompts. The pipeline proposed is that the user feeds an image prompt Ps to describe the source image, a modified target prompt Pt (changing just one word in the source prompt) and provides the source image. The mutual attention mechanism queries image content so that it can generate consistent images under the modified target prompt. The mutual attention and cross attention layer extracts informations about features relevant for the target prompt from its knowledge and synthesize a semantic layout. The denoising U-Net injects this information to the source retaining consistency because of the separation of foreground and background. This pipeline that is solely controlled by text prompts along with Stable Diffusion was observed to be ineffective, so T2I adapters were also integrated for more stable synthesis. The major disadvantages are being limited by the knowledge of stable diffusion to generate the target prompt and impact of artifacts or change in background or other inconsistencies with the target prompt. 
 
+We believe we can improve our model by incorporating the idea of poses instead of attention maps, avoiding text guidance and focusing on just pose driven image synthesis, integrating ControlNet and T2I adapters as they are superior in image editing than just prompt guide image synthesis by Stable Diffusion and finetuning the model on our dataset to adapt to artifacts and changes in appearance and improving knowledge.
+</p>
+<p>
+[2] **"MagicPose: Realistic Human Poses and Facial Expressions Retargeting with Identity-aware Diffusion"** by Chang et al. proposes a diffusion model based 2d human pose and facial expression retargetting. To retain identity or consistency of source image they explored connecting the attention layers of diffusion U-Net to provide layer-by-layer attention guidance and retain the apperance of the source image as these layers are highly relevant to the appearance of the generated images.They thus pretain the Stable Diffusion U-Net along with a "Appearance Control Module" that has self attention layers, the key-value pairs are connected together and attention is calculated. ControlNet copies the encoder and middle blocks of SD-UNet, whose output feature maps are added to the decoder of SD-UNet to realize pose control while retaining the appearance. To enhance the entanglement, they fine-tune the Pose ControlNet jointly with our Appearance Control Module this provides enhanced results.
 
-
-
+We believe we can improve our model by incorporating the appearance control module and finetuning our ControlNet with it.
+</p>
 
 
