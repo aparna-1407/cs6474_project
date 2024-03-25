@@ -1,6 +1,6 @@
-theme: jekyll-theme-cayman
+title: PoseMaster Fusion: Transforming Images by Capturing Pose Dynamics
+description: Structured Pose Synthesis with Stable Diffusion to seamlessly modify your photos with any pose from doodles or references and enhance them using text prompts.
+Aparna Shree Sivanandam, Poojitha Nandigam and Shubham Lohiya
 github:
   is_project_page: false
-title: "CS 6476 Course Project"
-description: "Structured Pose Synthesis with Stable Diffusion to seamlessly modify your photos with any pose from doodles or references and enhance them using text prompts.
-Aparna Shree Sivanandam, Poojitha Nandigam and Shubham Lohiya"
+theme: jekyll-theme-cayman
