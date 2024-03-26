@@ -2,7 +2,16 @@
 layout: default
 ---
 # PoseMaster Fusion: Transforming Images by capturing Pose Dynamics
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#previous-work" class="btn">Previous Work</a> 
+## Contents
+<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#introduction" class="btn">Introduction</a> 
+<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#previous-work" class="btn">Previous Work</a>
+<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#approach" class="btn">Approach</a>
+<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#experiments" class="btn">Experiments</a>
+<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#results" class="btn">Results</a>
+<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#future-steps" class="btn">Future Steps</a>
+<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#contribution" class="btn">Contribution</a>
+<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#references" class="btn">References</a>
+
 ## Introduction
 <p align="justify">
 PoseMaster Fusion is a diffusion based model for 2D human pose retargeting. Specifically, given a reference image, the model aims to generate a set of new images of the person by controlling the poses and other features such as the style while keeping the identity unchanged. At its core, this project seeks to revolutionize the way we interact with and manipulate images, providing users with unprecedented control over the pose dynamics of their digital images. By leveraging the ability of control nets to understand and map poses from reference images or doodles, and harmonizing this with the generative capabilities of stable diffusion models, Pose Master Fusion attempts to synthesize images disentangling appearance from pose and style. 
