@@ -104,12 +104,12 @@ The overall approach is divided in 3 modules.
 > For Project Update-1 we have completed part of the Pose Control Module. We have identified how to set up the pipeline corrently and how ControlNet works best with Stable Diffusion to generate the right output. More details on the different approaches attempted will be explained in next sections. Only during the set up of our pipeline did we realize that ControlNet doesn't preserve appearance and based on further research arrived at the current architecture. So our future steps would be to build a fine-tuned ACM and then incorporate within the pipeline to create the ADPCM.
 
 ## Experiments and Results
-### Work done for Project Update-1
+(Work done for Project Update-1)
 Following is a summary of all the approaches we tried, what we observed, and the challenges faced.
-#### Dataset
+### Dataset
 **[Deep Fashion](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)** <p> We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. </p>
 
-#### Experiments
+### Experiments
 ##### Using the prior knowledge of ControlNet and Stable Diffusion
 
 We use Stable Diffusion(SD) V1.5 and ControlNet (compatible with SDv1.5) directly with no finetuning due to the extensive knowledge and generalization capabilities inherent in these models. These pre-trained models have been exposed to diverse datasets, enabling them to handle a wide variety of scenarios without the need for additional training. By leveraging the learned representations we attempt to save significant resources and time, while trying to achieve accurate results.
@@ -149,7 +149,7 @@ This pipeline uses the OpenPose ControlNet module along with SDv1.5 in half prec
 
 We will aim to address this issue with a improved pose-transfer model that we will develop in the next steps of our project.
 
-#### Metrics
+### Metrics
 We plan to conduct a comprehensive evaluation of the finally developed model using the following metrics.
  * [Structural Similarity Index Measure(SSIM)](https://arxiv.org/pdf/2004.01864.pdf)
  * [Learned Perceptual Image Patch Similarity(LPIPS)](https://arxiv.org/pdf/2401.02414.pdf)
