@@ -5,12 +5,12 @@ layout: default
 ## Contents
 <a href="#introduction" class="btn">Introduction</a> 
 <a href="#previous-work" class="btn">Previous Work</a>
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#approach" class="btn">Approach</a>
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#experiments" class="btn">Experiments</a>
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#results" class="btn">Results</a>
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#future-steps" class="btn">Future Steps</a>
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#contribution" class="btn">Contribution</a>
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#references" class="btn">References</a>
+<a href="#approach" class="btn">Approach</a>
+<a href="#experiments" class="btn">Experiments</a>
+<a href="#results" class="btn">Results</a>
+<a href="#future-steps" class="btn">Future Steps</a>
+<a href="#contribution" class="btn">Contribution</a>
+<a href="#references" class="btn">References</a>
 
 ## Introduction
 <p align="justify">
