@@ -3,14 +3,14 @@ layout: default
 ---
 # PoseMaster Fusion: Transforming Images by capturing Pose Dynamics
 ## Contents
-<a href="#introduction" class="btn">Introduction</a> 
-<a href="#previous-work" class="btn">Previous Work</a>
-<a href="#approach" class="btn">Approach</a>
-<a href="#experiments" class="btn">Experiments</a>
-<a href="#results" class="btn">Results</a>
-<a href="#future-steps" class="btn">Future Steps</a>
-<a href="#contribution" class="btn">Contribution</a>
-<a href="#references" class="btn">References</a>
+1. [Introduction](#introduction)
+2. [Previous Work](#previous-work)
+3. [Approach](#approach)
+4. [Experiments](#experiments)
+5. [Results](#results)
+6. [Future Steps](#future-steps)
+7. [Contribution](#contribution)
+8. [References](#references)
 
 ## Introduction
 <p align="justify">
@@ -74,21 +74,29 @@ We believe we can improve our model by incorporating the appearance control modu
 ### Image Generation Models
 <p style="font-weight:bold">
   [5]“Denoising Diffusion Probabilistic Models”by Ho et.al(2020)</p><p> introduces a new class of generative models called Denoising Diffusion Probabilistic Models (DDPMs) for image synthesis. DDPMs generate high-quality images by gradually adding noise to an initial random noise image and then "denoising" it back to a realistic image through a series of steps.
-
 </p>
+
 #### Takeaway:
 <p>
   We understand that DDPM-based frameworks suit text guided image generation tasks best. 
 </p>
 
 <p style="font-weight:bold">
-  [6]**“InstructPix2Pix Learning to Follow Image Editing Instructions” by Brooks et al(2023)</p><p> suggest DDPMs are powerful models for generating high-quality images, but they usually struggle with tasks like image editing due to their inherent noise removal process. This paper proposes InstructPix2Pix, a DDPM-based framework that leverages text instructions to guide the editing process while preserving image details.
+  [6]“InstructPix2Pix Learning to Follow Image Editing Instructions” by Brooks et al(2023)</p><p> suggest DDPMs are powerful models for generating high-quality images, but they usually struggle with tasks like image editing due to their inherent noise removal process. This paper proposes InstructPix2Pix, a DDPM-based framework that leverages text instructions to guide the editing process while preserving image details.
 </p>
 
 #### Takeaway:
 <p>
   We also plan to use InstructPix2Pix module of StableDiffusion for the text guided image editting task. 
 </p>
+
+## Approach
+
+### Overall Pipeline
+<p align="center">
+<img width="671" alt="image" src="https://github.com/aparna-1407/cs6474_project/assets/93538009/664dba96-b9d0-4f86-abf1-b10f3abe1a76">
+</p>
+
 
 
 
