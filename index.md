@@ -104,6 +104,11 @@ The overall approach is divided in 3 modules.
 
 > For Project Update-1 we have completed part of the Pose Control Module. We have identified how to set up the pipeline corrently and how ControlNet works best with Stable Diffusion to generate the right output. More details on the different approaches attempted will be explained in next sections. Only during the set up of our pipeline did we realize that ControlNet doesn't preserve appearance and based on further research arrived at the current architecture. So our future steps would be to build a fine-tuned ACM and then incorporate within the pipeline to create the ADPCM.
 
+## Experiments
+### Work done for Project Update-1
+Following is a summary of all the approaches we tried and what we observed, the challenges faced.
+1. <p style="font-weight:bold">Using the prior knowledge of ControlNet and Stable Diffusion</p>
+  a. 
 
 
 
