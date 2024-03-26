@@ -109,7 +109,8 @@ Following is a summary of all the approaches we tried, what we observed, and the
 #### Dataset
 **[Deep Fashion](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)** <p> We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. </p>
 
-#### Using the prior knowledge of ControlNet and Stable Diffusion
+#### Experiments
+##### Using the prior knowledge of ControlNet and Stable Diffusion
 
 We use Stable Diffusion(SD) V1.5 and ControlNet (compatible with SDv1.5) directly with no finetuning due to the extensive knowledge and generalization capabilities inherent in these models. These pre-trained models have been exposed to diverse datasets, enabling them to handle a wide variety of scenarios without the need for additional training. By leveraging the learned representations we attempt to save significant resources and time, while trying to achieve accurate results.
 
@@ -163,6 +164,16 @@ We plan to conduct a comprehensive evaluation of the finally developed model usi
 | To understand and incorperate text guided enhancements via InstructPix2Pix module of SD| Apr 8 |
 | To evaluate the entire model's results based on the decided metrics | Apr 12 |
 | Examine the model's generalizability on other datasets such as the frames from [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset) if possible | Apr 16 |
+
+## Contribution
+| Tasks | Member |
+|-------|-------------------------------|
+| Design an Appearance Control Module using pretrained SD U-Net and auxiliary U-Net |Aparna and Shubham |
+| Finetune ControlNet with Appearance Control Module freezing the Auxialiary U-Net to preserve appearance thus creating Appearance Disentangled Pose Control Module | Poojitha |
+| To understand and incorperate text guided enhancements via InstructPix2Pix module of SD| Poojitha |
+| To evaluate the entire model's results based on the decided metrics | Shubham|
+| Examine the model's generalizability on other datasets such as the frames from [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset) if possible | Aparna |
+|Update the website and maintain repository | All |
 
 
 
