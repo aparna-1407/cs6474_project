@@ -3,8 +3,8 @@ layout: default
 ---
 # PoseMaster Fusion: Transforming Images by capturing Pose Dynamics
 ## Contents
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#introduction" class="btn">Introduction</a> 
-<a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#previous-work" class="btn">Previous Work</a>
+<a href="#introduction" class="btn">Introduction</a> 
+<a href="#previous-work" class="btn">Previous Work</a>
 <a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#approach" class="btn">Approach</a>
 <a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#experiments" class="btn">Experiments</a>
 <a href="https://github.com/aparna-1407/cs6474_project/blob/main/index.md#results" class="btn">Results</a>
