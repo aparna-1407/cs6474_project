@@ -159,8 +159,9 @@ We plan to conduct a comprehensive evaluation of the finally developed model usi
  * [Clip score](https://huggingface.co/docs/diffusers/en/conceptual/evaluation)
    
 ## Future Steps
+
 | Tasks | Anticipated Date of Completion |
-|-------|-------------------------------|
+|:-------|:--------------------------------|
 | Design an Appearance Control Module using pretrained SD U-Net and auxiliary U-Net |Mar 31 |
 | Finetune ControlNet with Appearance Control Module freezing the Auxialiary U-Net to preserve appearance thus creating Appearance Disentangled Pose Control Module | Apr 4 |
 | To understand and incorperate text guided enhancements via InstructPix2Pix module of SD| Apr 8 |
@@ -168,8 +169,9 @@ We plan to conduct a comprehensive evaluation of the finally developed model usi
 | Examine the model's generalizability on other datasets such as the frames from [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset) if possible | Apr 16 |
 
 ## Contribution
+
 | Tasks | Member |
-|-------|-------------------------------|
+|:-------|:-------------------------------|
 | Design an Appearance Control Module using pretrained SD U-Net and auxiliary U-Net |Aparna and Shubham |
 | Finetune ControlNet with Appearance Control Module freezing the Auxialiary U-Net to preserve appearance thus creating Appearance Disentangled Pose Control Module | Poojitha |
 | To understand and incorperate text guided enhancements via InstructPix2Pix module of SD| Poojitha |
