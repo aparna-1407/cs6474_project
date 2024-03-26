@@ -137,7 +137,9 @@ This pipeline uses the OpenPose ControlNet module along with SDv1.5 in half prec
 * This is achieved by hacking into the self-attention and group normalization computations within the U-Net architecture, introducing custom forward methods that integrate the reference image information. Specifically, the self-attention mechanism is modified to consider the reference image as an additional encoder state, while the group normalization layers are adjusted to utilize the statistics of the reference image. These modifications allow for better control over the generated image's content and style, guided by the reference image.
 
 * This pipeline doesn't generate good results when we supply a source image to SD along with a text guidance and a reference image  to ControlNet because SD's latent representation are not from it is prior knowledge and the cross attention maps produced are relatively harder to identify and manipulate the control points.
-
+<p align="center">
+<img width="1000" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/85a528cf-7fe4-484e-8e41-698d48843962">
+</p>
 
 **Method 2: IP-Adapter for ControlNet**
 
