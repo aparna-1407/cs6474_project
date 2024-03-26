@@ -105,16 +105,45 @@ The overall approach is divided in 3 modules.
 
 ## Experiments and Results
 ### Work done for Project Update-1
-Following is a summary of all the approaches we tried and what we observed, the challenges faced.
-1. <p style="font-weight:bold">Using the prior knowledge of ControlNet and Stable Diffusion</p>
-<p> We use Stable Diffusion(SD) V1.5 and ControlNet (compatible with SDv1.5) directly with no finetuning due to the extensive knowledge and generalization capabilities inherent in these models. These pre-trained models have been exposed to diverse datasets, enabling them to handle a wide variety of scenarios without the need for additional training. By leveraging the learned representations we attempt to save significant resources and time, while trying to achieve accurate results. </p>
-  a. <p style="font-weight:bold"> Stable Diffusion ControlNet Reference Pipeline</p>
-* <p> We create a reference pipeline using the OpenPose ControlNet module along with SDv1.5 in half precision (float16) and the UniPCMultistepScheduler which is the fastest diffusion model schedulers. The pipeline essentially uses CLIP text encoder for processing text prompts which creates text embeddings, then the SD UNet which processes the text prompt and the source image and generates subject embeddings from the image followed by ControlNet which transforms the source image using the reference image, then the VAE decoder which finally converts the latent information into a generated image. 
-* <p>This pipeline works well when input is simply a textprompt about the image we want and the reference pose image because SD generate images using a prompt and the latent representation coming from its prior knowledge is easy to perceive and manipulate by ControlNet.</p>
+Following is a summary of all the approaches we tried, what we observed, and the challenges faced.
+
+#### Using the prior knowledge of ControlNet and Stable Diffusion
+
+We use Stable Diffusion(SD) V1.5 and ControlNet (compatible with SDv1.5) directly with no finetuning due to the extensive knowledge and generalization capabilities inherent in these models. These pre-trained models have been exposed to diverse datasets, enabling them to handle a wide variety of scenarios without the need for additional training. By leveraging the learned representations we attempt to save significant resources and time, while trying to achieve accurate results.
+
+However, ControlNet takes a pose image and a text prompt and generates a new image aligned with the text prompt that matches the pose represented in the pose image. This is not ideal for our use case as we want to achieve pose transfer for a source image given a reference pose image. Additionally for future experiments, we also want to leave functionality for aligning generations with text prompts as well in addition to the source image. To achieve this, we need to inject functionality for image prompt input for the source image, along with the default input functionality for the text prompts and the pose image in the ControlNet module. To explore how this can be achieved, we tried the following approaches:
+
+<div style="color: gray">
+**Background: `StableDiffusionControlNetPipeline`**
+
+This pipeline uses the OpenPose ControlNet module along with SDv1.5 in half precision (float16) and the UniPCMultistepScheduler which is the fastest diffusion model scheduler. The pipeline essentially uses CLIP text encoder for processing text prompts which creates text embeddings, then the SD UNet which processes the text prompt and the source image and generates subject embeddings from the image followed by ControlNet which transforms the source image using the reference image, then the VAE decoder which finally converts the latent information into a generated image. 
+
+* This pipeline works well when input is simply a textprompt about the image we want and the reference pose image because SD generate images using a prompt and the latent representation coming from its prior knowledge is easy to perceive and manipulate by ControlNet.
+
 <p align="center">
 <img width="1000" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/42696e7c-8001-4759-ad32-d7b91c1d093c">
 </p>
-* <p>This pipeline doesn't generate good results when we supply a source image to SD along with a text guidance and a reference image  to ControlNet because SD's latent representation are not from it is prior knowledge and the cross attention maps produced are relatively harder to identify and manipulate the control points. </p>
+
+</div>
+
+**Method 1: Stable Diffusion ControlNet Reference Pipeline**
+
+* We create a custom pipeline that hacks the default `StableDiffusionControlNetPipeline` from the `diffusers` library to allow image generation using an additional reference image (source image) along with the pose and text prompt inputs. 
+
+* This is achieved by hacking into the self-attention and group normalization computations within the U-Net architecture, introducing custom forward methods that integrate the reference image information. Specifically, the self-attention mechanism is modified to consider the reference image as an additional encoder state, while the group normalization layers are adjusted to utilize the statistics of the reference image. These modifications allow for better control over the generated image's content and style, guided by the reference image.
+
+* This pipeline doesn't generate good results when we supply a source image to SD along with a text guidance and a reference image  to ControlNet because SD's latent representation are not from it is prior knowledge and the cross attention maps produced are relatively harder to identify and manipulate the control points.
+
+
+**Method 2: IP-Adapter for ControlNet**
+
+* [IP-Adapter](https://arxiv.org/pdf/2308.06721.pdf) is a lightweight and efficient method to add image prompt capability to pre-trained text-to-image diffusion models. It employs a decoupled cross-attention mechanism that separately processes text and image features, allowing for multimodal image generation. With only 22M parameters, IP-Adapter achieves comparable results to fully fine-tuned models and can be easily integrated with existing structural control tools. This makes it an ideal candidate for getting a baseline model for our use case.
+
+* The implementation for this method uses an IP Adapter wrapper over our `StableDiffusionControlNetPipeline` to add functionality for the image prompts. We use the pre-trained [Controlnet - v1.1 - openpose Version](https://huggingface.co/lllyasviel/control_v11p_sd15_openpose) for developing this baseline.
+
+* The qualitative results from our preliminary experiments (shown below) show that the IP-Adapter is able to generate images that are aligned with the given pose and the source image. However, the generated images sometimes have undesirable variations in fine details present in the source image. For example, the clothes or shoes of the subject in the generated image may not match the source image. This is likely due to the fact that the IP-Adapter is not fine-tuned on our dataset and hence does not have the necessary knowledge to preserve the appearance of the source image. While for most use-cases of pose-transfer, preserving such level of detail is not necessary, it is still important for a good pose transfer model to retain the appearance of the source image as much as possible.
+
+  We will aim to address this issue with a improved pose-transfer model that we will develop in the next steps of our project.
 
 
 
