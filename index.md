@@ -106,6 +106,8 @@ The overall approach is divided in 3 modules.
 ## Experiments and Results
 ### Work done for Project Update-1
 Following is a summary of all the approaches we tried, what we observed, and the challenges faced.
+#### Dataset
+**[Deep Fashion](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)** <p> We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. </p>
 
 #### Using the prior knowledge of ControlNet and Stable Diffusion
 
@@ -144,10 +146,23 @@ This pipeline uses the OpenPose ControlNet module along with SDv1.5 in half prec
 
 * The qualitative results from our preliminary experiments (shown below) show that the IP-Adapter is able to generate images that are aligned with the given pose and the source image. However, the generated images sometimes have undesirable variations in fine details present in the source image. For example, the clothes or shoes of the subject in the generated image may not match the source image. This is likely due to the fact that the IP-Adapter is not fine-tuned on our dataset and hence does not have the necessary knowledge to preserve the appearance of the source image. While for most use-cases of pose-transfer, preserving such level of detail is not necessary, it is still important for a good pose transfer model to retain the appearance of the source image as much as possible.
 
-  We will aim to address this issue with a improved pose-transfer model that we will develop in the next steps of our project.
+We will aim to address this issue with a improved pose-transfer model that we will develop in the next steps of our project.
 
-
-
+#### Metrics
+We plan to conduct a comprehensive evaluation of the finally developed model using the following metrics.
+ * [Structural Similarity Index Measure(SSIM)](https://arxiv.org/pdf/2004.01864.pdf)
+ * [Learned Perceptual Image Patch Similarity(LPIPS)](https://arxiv.org/pdf/2401.02414.pdf)
+ * [Fréchet Inception Distance (FID)](https://huggingface.co/docs/diffusers/en/conceptual/evaluation)
+ * [Clip score](https://huggingface.co/docs/diffusers/en/conceptual/evaluation)
+   
+## Future Steps
+| Tasks | Anticipated Date of Completion |
+|-------|-------------------------------|
+| Design an Appearance Control Module using pretrained SD U-Net and auxiliary U-Net |Mar 31 |
+| Finetune ControlNet with Appearance Control Module freezing the Auxialiary U-Net to preserve appearance thus creating Appearance Disentangled Pose Control Module | Apr 4 |
+| To understand and incorperate text guided enhancements via InstructPix2Pix module of SD| Apr 8 |
+| To evaluate the entire model's results based on the decided metrics | Apr 12 |
+| Examine the model's generalizability on other datasets such as the frames from [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset) if possible | Apr 16 |
 
 
 
