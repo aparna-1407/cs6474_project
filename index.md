@@ -6,11 +6,10 @@ layout: default
 1. [Introduction](#introduction)
 2. [Previous Work](#previous-work)
 3. [Approach](#approach)
-4. [Experiments](#experiments)
-5. [Results](#results)
-6. [Future Steps](#future-steps)
-7. [Contribution](#contribution)
-8. [References](#references)
+4. [Experiments and Results](#experiments-and-results)
+5. [Future Steps](#future-steps)
+6. [Contribution](#contribution)
+7. [References](#references)
 
 ## Introduction
 <p align="justify">
@@ -104,6 +103,18 @@ The overall approach is divided in 3 modules.
 
 > For Project Update-1 we have completed part of the Pose Control Module. We have identified how to set up the pipeline corrently and how ControlNet works best with Stable Diffusion to generate the right output. More details on the different approaches attempted will be explained in next sections. Only during the set up of our pipeline did we realize that ControlNet doesn't preserve appearance and based on further research arrived at the current architecture. So our future steps would be to build a fine-tuned ACM and then incorporate within the pipeline to create the ADPCM.
 
+## Experiments and Results
+### Work done for Project Update-1
+Following is a summary of all the approaches we tried and what we observed, the challenges faced.
+1. <p style="font-weight:bold">Using the prior knowledge of ControlNet and Stable Diffusion</p>
+<p> We use Stable Diffusion(SD) V1.5 and ControlNet (compatible with SDv1.5) directly with no finetuning due to the extensive knowledge and generalization capabilities inherent in these models. These pre-trained models have been exposed to diverse datasets, enabling them to handle a wide variety of scenarios without the need for additional training. By leveraging the learned representations we attempt to save significant resources and time, while trying to achieve accurate results. </p>
+  a. <p style="font-weight:bold"> Stable Diffusion ControlNet Reference Pipeline</p>
+* <p> We create a reference pipeline using the OpenPose ControlNet module along with SDv1.5 in half precision (float16) and the UniPCMultistepScheduler which is the fastest diffusion model schedulers. The pipeline essentially uses CLIP text encoder for processing text prompts which creates text embeddings, then the SD UNet which processes the text prompt and the source image and generates subject embeddings from the image followed by ControlNet which transforms the source image using the reference image, then the VAE decoder which finally converts the latent information into a generated image. 
+* <p>This pipeline works well when input is simply a textprompt about the image we want and the reference pose image because SD generate images using a prompt and the latent representation coming from its prior knowledge is easy to perceive and manipulate by ControlNet.</p>
+<p align="center">
+<img width="1000" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/42696e7c-8001-4759-ad32-d7b91c1d093c">
+</p>
+* <p>This pipeline doesn't generate good results when we supply a source image to SD along with a text guidance and a reference image  to ControlNet because SD's latent representation are not from it is prior knowledge and the cross attention maps produced are relatively harder to identify and manipulate the control points. </p>
 
 
 
