@@ -6,6 +6,8 @@ from PIL import Image
 from controlnet_aux import OpenposeDetector
 from types import MethodType
 from ip_adapter import IPAdapter
+import os
+from PIL import Image
 
 from stable_diffusion_controlnet_reference import StableDiffusionControlNetReferencePipeline
 
@@ -70,7 +72,7 @@ class PoseTransfer():
             width=512, height=768, num_samples=4, num_inference_steps=50, seed=42)
             # grid = image_grid(images, 1, 4)
             for _ix, img in enumerate(images):
-                img.save(f'images/ip_adapter_image_{i+_ix + 1}.png')
+                img.save(f'../data/examples/generations/ip_adapter_image_{i+1}_{_ix + 1}.png')
         return
 
 
@@ -109,18 +111,23 @@ class PoseTransfer():
                 controlnet_conditioning_scale = 0.9
             )
             for _ix, img in enumerate(output.images):
-                img.save(f'images/image_{i + _ix + 1}.png')
+                img.save(f'../data/examples/generations/image_{i+1}_{_ix + 1}.png')
         # image_grid(output.images, 1, 1)
 
 if __name__=="__main__":
-    ref_images = [load_image("https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/person.png")]
+    ref_images = [Image.open("../data/examples/sources/person.png")]
     # ref_images = [load_image("https://as1.ftcdn.net/v2/jpg/03/11/63/54/1000_F_311635498_i6ouJY7aYwMXd5Mp4qvrZcK6aaMd1v4Z.jpg")]
-    imgs = [load_image("https://i.pinimg.com/736x/b4/a1/d4/b4a1d47aca99300039e07e77923c88e2.jpg")]
+    imgs = os.listdir("../data/examples/poses")
+    imgs = [Image.open("../data/examples/poses/" + img) for img in imgs]
+    # imgs = [load_image("https://i.pinimg.com/736x/b4/a1/d4/b4a1d47aca99300039e07e77923c88e2.jpg")]
     # urls = "yoga1.jpeg", "yoga2.jpeg", "yoga3.jpeg", "yoga4.jpeg"
     # imgs = [
     #     load_image("https://hf.co/datasets/YiYiXu/controlnet-testing/resolve/main/" + url)
     #     for url in urls
     # ]
+
     pose_transfer = PoseTransfer()
-    # pose_transfer.run_pose_transfer(imgs, ref_images)
-    pose_transfer.run_pose_transfer_ip_adapter(imgs, ref_images)
+    pose_transfer.run_pose_transfer(imgs, ref_images)
+
+    # pose_transfer = PoseTransfer(controlnet_model=CONTROL_NET_MODEL_IP_ADAPTER)
+    # pose_transfer.run_pose_transfer_ip_adapter(imgs, ref_images)
