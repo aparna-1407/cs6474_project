@@ -113,10 +113,10 @@ We use Stable Diffusion(SD) V1.5 and ControlNet (compatible with SDv1.5) directl
 
 However, ControlNet takes a pose image and a text prompt and generates a new image aligned with the text prompt that matches the pose represented in the pose image. This is not ideal for our use case as we want to achieve pose transfer for a source image given a reference pose image. Additionally for future experiments, we also want to leave functionality for aligning generations with text prompts as well in addition to the source image. To achieve this, we need to inject functionality for image prompt input for the source image, along with the default input functionality for the text prompts and the pose image in the ControlNet module. To explore how this can be achieved, we tried the following approaches:
 
-<div style="color: gray">
+
 
 **Background: `StableDiffusionControlNetPipeline`**
-
+<div style="color: gray">
 This pipeline uses the OpenPose ControlNet module along with SDv1.5 in half precision (float16) and the UniPCMultistepScheduler which is the fastest diffusion model scheduler. The pipeline essentially uses CLIP text encoder for processing text prompts which creates text embeddings, then the SD UNet which processes the text prompt and the source image and generates subject embeddings from the image followed by ControlNet which transforms the source image using the reference image, then the VAE decoder which finally converts the latent information into a generated image. 
 
 * This pipeline works well when input is simply a textprompt about the image we want and the reference pose image because SD generate images using a prompt and the latent representation coming from its prior knowledge is easy to perceive and manipulate by ControlNet.
