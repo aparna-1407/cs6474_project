@@ -72,7 +72,7 @@ class PoseTransfer():
             width=512, height=768, num_samples=4, num_inference_steps=50, seed=42)
             # grid = image_grid(images, 1, 4)
             for _ix, img in enumerate(images):
-                img.save(f'../data/examples/generations/ip_adapter_image_{i+1}_{_ix + 1}.png')
+                img.save(f'../data/examples/generations/person2/ip_adapter_image_{i+1}_{_ix + 1}.png')
         return
 
 
@@ -111,11 +111,11 @@ class PoseTransfer():
                 controlnet_conditioning_scale = 0.9
             )
             for _ix, img in enumerate(output.images):
-                img.save(f'../data/examples/generations/image_{i+1}_{_ix + 1}.png')
+                img.save(f'../data/examples/generations/person2/image_{i+1}_{_ix + 1}.png')
         # image_grid(output.images, 1, 1)
 
 if __name__=="__main__":
-    ref_images = [Image.open("../data/examples/sources/person.png")]
+    ref_images = [Image.open("../data/examples/sources/person2.png")]
     # ref_images = [load_image("https://as1.ftcdn.net/v2/jpg/03/11/63/54/1000_F_311635498_i6ouJY7aYwMXd5Mp4qvrZcK6aaMd1v4Z.jpg")]
     imgs = os.listdir("../data/examples/poses")
     imgs = [Image.open("../data/examples/poses/" + img) for img in imgs]
@@ -126,8 +126,8 @@ if __name__=="__main__":
     #     for url in urls
     # ]
 
-    pose_transfer = PoseTransfer()
-    pose_transfer.run_pose_transfer(imgs, ref_images)
+    # pose_transfer = PoseTransfer()
+    # pose_transfer.run_pose_transfer(imgs, ref_images)
 
-    # pose_transfer = PoseTransfer(controlnet_model=CONTROL_NET_MODEL_IP_ADAPTER)
-    # pose_transfer.run_pose_transfer_ip_adapter(imgs, ref_images)
+    pose_transfer = PoseTransfer(controlnet_model=CONTROL_NET_MODEL_IP_ADAPTER)
+    pose_transfer.run_pose_transfer_ip_adapter(imgs, ref_images)
