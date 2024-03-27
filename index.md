@@ -111,7 +111,10 @@ Following is a summary of all the approaches we tried, what we observed, and the
 
 ### Dataset
 
-**[Deep Fashion](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)** <p> We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. </p>
+**[Deep Fashion](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)** 
+<p> 
+  We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. 
+</p>
 
 ### Experiments
 
@@ -145,7 +148,10 @@ However, we want to pose transfer for a specific given source image. Mentioned b
 * This is achieved by hacking into the self-attention and group normalization computations within the U-Net architecture, introducing custom forward methods that integrate the reference image information. Specifically, the self-attention mechanism is modified to consider the reference image as an additional encoder state, while the group normalization layers are adjusted to utilize the statistics of the reference image. These modifications allow for better control over the generated image's content and style, guided by the reference image.
 
 * This pipeline doesn't generate good results when we supply a source image to SD along with a text guidance and a reference image  to ControlNet because SD's latent representation are not from it is prior knowledge and the cross attention maps produced are relatively harder to identify and manipulate the control points.
-
+<p align="center">
+<img width="1413" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/f28b37f4-ce31-4346-9c1a-72b63e68ec4f">
+<img width="1413" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/b08ad061-79e7-4926-bf73-4cb5e7c9b9d8">
+</p>
 
 **Method 2: IP-Adapter for ControlNet**
 
@@ -154,8 +160,16 @@ However, we want to pose transfer for a specific given source image. Mentioned b
 * The implementation for this method uses an IP Adapter wrapper over our `StableDiffusionControlNetPipeline` to add functionality for the image prompts. We use the pre-trained [Controlnet - v1.1 - openpose Version](https://huggingface.co/lllyasviel/control_v11p_sd15_openpose) for developing this baseline.
 
 * The qualitative results from our preliminary experiments (shown below) show that the IP-Adapter is able to generate images that are aligned with the given pose and the source image. However, the generated images sometimes have undesirable variations in fine details present in the source image. For example, the clothes or shoes of the subject in the generated image may not match the source image. This is likely due to the fact that the IP-Adapter is not fine-tuned on our dataset and hence does not have the necessary knowledge to preserve the appearance of the source image. While for most use-cases of pose-transfer, preserving such level of detail is not necessary, it is still important for a good pose transfer model to retain the appearance of the source image as much as possible.
-
+  
 We will aim to address this issue with a improved pose-transfer model that we will develop in the next steps of our project.
+
+<p align="center"> 
+<img width="1280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/592c672e-4192-4b24-836f-9d16272371b1">
+<img width="1280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/8b5dca3e-ce3e-4914-9604-850838ceb8e1">
+</p>
+
+
+
 
 ### Metrics
 We plan to conduct a comprehensive evaluation of the finally developed model using the following metrics.
@@ -165,23 +179,28 @@ We plan to conduct a comprehensive evaluation of the finally developed model usi
  * [Clip score](https://huggingface.co/docs/diffusers/en/conceptual/evaluation)
    
 ## Future Steps
+
 | Tasks | Anticipated Date of Completion |
-|-------|-------------------------------|
-| Design an Appearance Control Module using pretrained SD U-Net and auxiliary U-Net |Mar 31 |
-| Finetune ControlNet with Appearance Control Module freezing the Auxialiary U-Net to preserve appearance thus creating Appearance Disentangled Pose Control Module | Apr 4 |
-| To understand and incorperate text guided enhancements via InstructPix2Pix module of SD| Apr 8 |
-| To evaluate the entire model's results based on the decided metrics | Apr 12 |
-| Examine the model's generalizability on other datasets such as the frames from [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset) if possible | Apr 16 |
+|:------|:-------------------------------|
+| Design an Appearance Control Module using a pretrained SD U-Net and auxiliary U-Net. | Mar 31 |
+| Finetune ControlNet with the Appearance Control Module, freezing the Auxiliary U-Net to preserve appearance, thus creating an Appearance Disentangled Pose Control Module. | Apr 4 |
+| Understand and incorporate text-guided enhancements via the InstructPix2Pix module of SD. | Apr 8 |
+| Evaluate the entire model's results based on the decided metrics. | Apr 12 |
+| Examine the model's generalizability on other datasets, such as the frames from the [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset), if possible. | Apr 16 |
 
 ## Contribution
+
 | Tasks | Member |
-|-------|-------------------------------|
-| Design an Appearance Control Module using pretrained SD U-Net and auxiliary U-Net |Aparna and Shubham |
-| Finetune ControlNet with Appearance Control Module freezing the Auxialiary U-Net to preserve appearance thus creating Appearance Disentangled Pose Control Module | Poojitha |
-| To understand and incorperate text guided enhancements via InstructPix2Pix module of SD| Poojitha |
-| To evaluate the entire model's results based on the decided metrics | Shubham|
-| Examine the model's generalizability on other datasets such as the frames from [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset) if possible | Aparna |
-|Update the website and maintain repository | All |
+|:------|:-------|
+| Design an Appearance Control Module using a pretrained SD U-Net and auxiliary U-Net. | Aparna and Shubham |
+| Finetune ControlNet with the Appearance Control Module, freezing the Auxiliary U-Net to preserve appearance, thus creating an Appearance Disentangled Pose Control Module. | Poojitha |
+| Understand and incorporate text-guided enhancements via the InstructPix2Pix module of SD. | Poojitha |
+| Evaluate the entire model's results based on the decided metrics. | Shubham |
+| Examine the model's generalizability on other datasets, such as the frames from the [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset), if possible. | Aparna |
+| Update the website and maintain the repository. | All |
+
+
+
 
 
 
