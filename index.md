@@ -213,3 +213,9 @@ We plan to conduct a comprehensive evaluation of the finally developed model usi
 [5] J. Ho, A. Jain, and P. Abbeel, “Denoising Diffusion Probabilistic Models,” 2020. [Online]. Available: https://arxiv.org/abs/2006.11239.
 
 [6] T. Brooks, A. Holynski, and A. A. Efros, “InstructPix2Pix: Learning to Follow Image Editing Instructions,” 2022. [Online]. Available: https://arxiv.org/abs/2211.09800.
+
+### Code References
+
+[7] [Stable Diffusion ControlNet Reference Pipeline](https://github.com/huggingface/diffusers/blob/main/examples/community/README.md#stable-diffusion-controlnet-reference)
+
+[8] [IP-Adapter for ControlNet](https://github.com/tencent-ailab/IP-Adapter/blob/main/ip_adapter_controlnet_demo_new.ipynb)
