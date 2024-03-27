@@ -10,6 +10,13 @@
 ## File Organisation
 - Code Files: You can find code files in `./src/`
 - Example outputs: You can find the example outputs organized as sources, poses and generated outputs in `./data/examples`
+
+
+## Command to run
+```
+cd src
+python pose_transfer.py
+```
   
 
 
