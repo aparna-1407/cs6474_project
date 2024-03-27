@@ -6,4 +6,10 @@
 4. Download IP Adapter models and copy it to the models directory
     wget https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15.bin
     download image_encoder folder from https://huggingface.co/h94/IP-Adapter/tree/main/models/image_encoder
+   
+## File Organisation
+- Code Files: You can find code files in `./src/`
+- Example outputs: You can find the example outputs organized as sources, poses and generated outputs in `./data/examples`
+  
+
 
