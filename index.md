@@ -142,8 +142,7 @@ This pipeline uses the OpenPose ControlNet module along with SDv1.5 in half prec
 * This pipeline doesn't generate good results when we supply a source image to SD along with a text guidance and a reference image  to ControlNet because SD's latent representation are not from it is prior knowledge and the cross attention maps produced are relatively harder to identify and manipulate the control points.
 <p align="center">
 <img width="1413" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/f28b37f4-ce31-4346-9c1a-72b63e68ec4f">
-
-<img width="1473" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/cdf14be7-6d74-4905-bfb9-181d2d6dd497">
+<img width="1413" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/b08ad061-79e7-4926-bf73-4cb5e7c9b9d8">
 </p>
 
 **Method 2: IP-Adapter for ControlNet**
