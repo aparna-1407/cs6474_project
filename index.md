@@ -154,9 +154,9 @@ This pipeline uses the OpenPose ControlNet module along with SDv1.5 in half prec
 * The qualitative results from our preliminary experiments (shown below) show that the IP-Adapter is able to generate images that are aligned with the given pose and the source image. However, the generated images sometimes have undesirable variations in fine details present in the source image. For example, the clothes or shoes of the subject in the generated image may not match the source image. This is likely due to the fact that the IP-Adapter is not fine-tuned on our dataset and hence does not have the necessary knowledge to preserve the appearance of the source image. While for most use-cases of pose-transfer, preserving such level of detail is not necessary, it is still important for a good pose transfer model to retain the appearance of the source image as much as possible.
   
 <p align="center"> 
-<img width="1387" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/592c672e-4192-4b24-836f-9d16272371b1">
+<img width="1280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/592c672e-4192-4b24-836f-9d16272371b1">
+<img width="1280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/8b5dca3e-ce3e-4914-9604-850838ceb8e1">
 </p>
-
 
 
 We will aim to address this issue with a improved pose-transfer model that we will develop in the next steps of our project.
