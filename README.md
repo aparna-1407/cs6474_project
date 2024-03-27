@@ -1,4 +1,4 @@
-# cs6476_project
+# CS6476 Project
 ## Setup
 1. Create a conda environment and activate it
 2. pip install -r requirements.txt

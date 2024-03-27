@@ -200,7 +200,16 @@ We plan to conduct a comprehensive evaluation of the finally developed model usi
 | Update the website and maintain the repository. | All |
 
 
+## References
 
+[1] M. Cao, X. Wang, Z. Qi, Y. Shan, X. Qie, and Y. Zheng, “MasaCtrl: Tuning-Free Mutual Self-Attention Control for Consistent Image Synthesis and Editing,” 2023. [Online]. Available: https://arxiv.org/abs/2304.08465.
 
+[2] D. Chang, Y. Shi, Q. Gao, J. Fu, H. Xu, G. Song, Q. Yan, Y. Zhu, X. Yang, and M. Soleymani, “MagicPose: Realistic Human Poses and Facial Expressions Retargeting with Identity-aware Diffusion,” 2023. [Online]. Available: https://arxiv.org/abs/2311.12052.
 
+[3] W. Li, X. Xu, J. Liu, and X. Xiao, “UNIMO-G: Unified Image Generation through Multimodal Conditional Diffusion,” 2024. [Online]. Available: https://arxiv.org/abs/2401.13388.
 
+[4] D. Li, J. Li, and S. C. H. Hoi, “BLIP-Diffusion: Pre-trained Subject Representation for Controllable Text-to-Image Generation and Editing,” 2023. [Online]. Available: https://ar5iv.labs.arxiv.org/html/2305.14720.
+
+[5] J. Ho, A. Jain, and P. Abbeel, “Denoising Diffusion Probabilistic Models,” 2020. [Online]. Available: https://arxiv.org/abs/2006.11239.
+
+[6] T. Brooks, A. Holynski, and A. A. Efros, “InstructPix2Pix: Learning to Follow Image Editing Instructions,” 2022. [Online]. Available: https://arxiv.org/abs/2211.09800.
