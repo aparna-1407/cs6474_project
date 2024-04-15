@@ -19,6 +19,17 @@ https://aparna-1407.github.io/cs6476_project_team18/
 cd src
 python pose_transfer.py
 ```
-  
-
+*For text guided image editting:*
+```
+cd stable-diffusion
+. .venv/bin/activate
+```
+Run the jupyter notebook under `stable-diffusion/notebooks/imagic.ipynb`
+To instantiate the jupyter notebook within the created venv:
+```
+conda install -c conda-forge notebook
+conda install -c conda-forge nb_conda_kernels
+python -m ipykernel install --user --name venv --display-name "Python (sd)"
+```
+Ensure the jupyter notebook is using the Python(sd) kernel
 
