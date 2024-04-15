@@ -19,7 +19,7 @@ https://aparna-1407.github.io/cs6476_project_team18/
 cd src
 python pose_transfer.py
 ```
-*For text guided image editting:*
+## Text guided image editting:
 ```
 cd stable-diffusion
 . .venv/bin/activate
@@ -33,9 +33,18 @@ python -m ipykernel install --user --name venv --display-name "Python (sd)"
 ```
 Ensure the jupyter notebook is using the Python(sd) kernel
 
-Inside the stable-diffusion submodule, make sure to navigate to 
+Inside the stable-diffusion submodule, make sure to clone the module using
+```
+cd text\ guided\ image\ editing
+git clone -e https://github.com/justinpinkney/stable-diffusion.git
+```
+Download Stable diffusion check point to run the code
 ```
 cd text\ guided\ image\ editing/stable-diffusion/models/ldm
 mkdir stable-diffusion-v1
 cd stable-diffusion-v1
 wget https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt```
+Copy our notebook to stable-diffusion submodule
+```
+cp notebooks/imagic_custom.ipynb text\ guided\ image\ editing/stable-diffusion/notebooks/
+```
