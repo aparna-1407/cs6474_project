@@ -33,3 +33,9 @@ python -m ipykernel install --user --name venv --display-name "Python (sd)"
 ```
 Ensure the jupyter notebook is using the Python(sd) kernel
 
+Inside the stable-diffusion submodule, make sure to navigate to 
+```
+cd text\ guided\ image\ editing/stable-diffusion/models/ldm
+mkdir stable-diffusion-v1
+cd stable-diffusion-v1
+wget https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt```
