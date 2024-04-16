@@ -1,0 +1,3 @@
+[submodule "MagicDance_for_Img2ImgPoseTransfer"]
+	path = MagicDance_for_Img2ImgPoseTransfer
+	url = https://github.com/Boese0601/MagicDance.git
