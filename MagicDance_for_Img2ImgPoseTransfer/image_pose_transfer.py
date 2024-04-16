@@ -41,10 +41,10 @@ def center_crop_to_512(image_path):
 def center_crop_pose_to_512(image_path, extract_pose_from_image=False):
     # Read the image from the local path
     image = Image.open(image_path)
-    image = np.array(image.convert("RGB") if image.mode != "RGB" else image)
+    image = image.convert("RGB") if image.mode != "RGB" else image
 
     if extract_pose_from_image:
-        image = Image.fromarray(openpose(image, hand_and_face=True))
+        image = Image.fromarray(openpose(np.array(image), hand_and_face=True))
 
     # Define the transformation to center crop to 512x512
     transform =  T.Compose([
