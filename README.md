@@ -7,7 +7,10 @@ https://aparna-1407.github.io/cs6476_project_team18/
     conda create -n cvpro python=3.9
     conda activate cvpro
     ```
-2. pip install -r requirements.txt
+2. Install dependencies
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 
 ---
