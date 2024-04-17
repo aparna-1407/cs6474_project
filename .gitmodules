@@ -1,3 +1,0 @@
-[submodule "text_guided_image_editing"]
-	path = text_guided_image_editing
-	url = https://github.com/justinpinkney/stable-diffusion.git
