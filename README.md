@@ -3,6 +3,18 @@ https://aparna-1407.github.io/cs6476_project_team18/
 
 ## Setup
 1. Create a conda environment and activate it
+    ```bash
+    conda create -n cvpro python=3.9
+    conda activate cvpro
+    ```
+2. pip install -r requirements.txt
+
+
+---
+# [OLD Instructions]
+
+## Setup
+1. Create a conda environment and activate it
 2. pip install -r requirements.txt
 3. mkdir models
 4. Download IP Adapter models and copy it to the models directory
