@@ -4,7 +4,7 @@ layout: default
 # PoseMaster Fusion: Transforming Images by capturing Pose Dynamics
 ## Contents
 1. [Introduction](#introduction)
-2. [Previous Work](#previous-work)
+2. [Related Work](#related-work)
 3. [Approach](#approach)
 4. [Experiments and Results](#experiments-and-results)
 5. [Future Steps](#future-steps)
@@ -34,12 +34,13 @@ This exploration is not just a technical endeavor but a response to the growing 
 The challenges in creating a cohesive system that can accurately interpret human poses, translate them into a different context while retaining the original image's essence, and produce results that are both visually stunning and contextually appropriate are immense. Through PoseMaster Fusion, we attempt to create a model that generalizes well and enables robust appearance control while leveraging the prior knowledge of Stable Diffusion models and ControlNet.
 </p>
 
-## Previous Work
-### Controlled Image Synthesis
+## Related Work
+### Explaining Context
+#### Controlled Image Synthesis
 <p style="font-weight:bold">[1]"MasaCtrl: Tuning-Free Mutual Self-Attention Control for Consistent Image Synthesis and Editing" by Cao et al. (2023)</p><p> proposes to change pose, view, structures, and non-rigid variances of the source image while maintaining the characteristics, texture, and identity by converting existing self attention in diffusion models into mutual self-attention, so that it can query correlated local contents and textures from source images for consistency. To further alleviate the query confusion between foreground and background, they propose a mask-guided mutual self-attention strategy, where the mask can be easily extracted from the cross-attention maps in diffusion models to separate foreground and background. Thye change the non-rigid attributes (e.g., changing object pose) using only text prompts. The pipeline proposed is that the user feeds an image prompt Ps to describe the source image, a modified target prompt Pt (changing just one word in the source prompt) and provides the source image. The mutual attention mechanism queries image content so that it can generate consistent images under the modified target prompt. The mutual attention and cross attention layer extracts informations about features relevant for the target prompt from its knowledge and synthesize a semantic layout. The denoising U-Net injects this information to the source retaining consistency because of the separation of foreground and background. This pipeline that is solely controlled by text prompts along with Stable Diffusion was observed to be ineffective, so T2I adapters were also integrated for more stable synthesis. The major disadvantages are being limited by the knowledge of stable diffusion to generate the target prompt and impact of artifacts or change in background or other inconsistencies with the target prompt. 
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
 We believe we can improve our model by incorporating the idea of poses instead of attention maps, avoiding text guidance and focusing on just pose driven image synthesis, integrating ControlNet and T2I adapters as they are superior in image editing than just prompt guide image synthesis by Stable Diffusion and finetuning the model on our dataset to adapt to artifacts and changes in appearance and improving knowledge.
 </p>
@@ -47,17 +48,17 @@ We believe we can improve our model by incorporating the idea of poses instead o
 <p style="font-weight:bold">[2] "MagicPose: Realistic Human Poses and Facial Expressions Retargeting with Identity-aware Diffusion" by Chang et al. (2024)</p><p> proposes a diffusion model based 2d human pose and facial expression re-targeting. To retain identity or consistency of source image they explored connecting the attention layers of diffusion U-Net to provide layer-by-layer attention guidance and retain the apperance of the source image as these layers are highly relevant to the appearance of the generated images. They thus pretain the Stable Diffusion U-Net along with a "Appearance Control Module" that has self attention layers, the key-value pairs are connected together and attention is calculated. ControlNet copies the encoder and middle blocks of SD-UNet, whose output feature maps are added to the decoder of SD-UNet to realize pose control while retaining the appearance. To enhance the entanglement, they fine-tune the Pose ControlNet jointly with the Appearance Control Module, achieving enhanced results.
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
 We believe we can improve our model by incorporating the appearance control module and finetuning our ControlNet with it.
 </p>
 
-### Multimodal Image Generation
+#### Multimodal Image Generation
 <p style="font-weight:bold">
   [3]“UNIMO-G: Unified Image Generation through Multimodal Conditional Diffusion” by Wei Li et al. (2024)</p><p> presents zero-shot multi-entity subject-driven generations through multimodal instructions or MLLM framework — a conditional denoising diffusion network for generating images based on the encoded multimodal input. They leverage a two-step training process: First is text-to-image training using a denoising diffusion UNet architecture and conditioning it on the text using a cross-attention mechanism. Then, the multimodal instruction tuning is achieved by training using millions of pairs of multimodal prompts created using DINO and SAM based data processing pipeline to improve the capability of multimodal generation.
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
   The efficacy of the text-to-image pretraining on the denoising U-Net shown by this work inspires us to try this out for our text based image enhancement and style edit endeavour.
 </p>
@@ -65,17 +66,17 @@ We believe we can improve our model by incorporating the appearance control modu
   [4]“BLIP-Diffusion: Pre-trained Subject Representation for Controllable Text-to-Image Generation and Editing” by SalesForce AI Research (2023)</p><p> introduces a new subject-driven image generation model that supports multimodal control, taking images and text prompts as subject inputs. It trains a multimodal encoder to extract visual features from the subject image and the multimodal module to provide subject representations that align with the text. It also uses Stable DIffusion for learning this subject representation and producing it, CLIP is the text encoder that generates the text embeddings, and 2 modules of BLIP-2 a frozen pre-trained image encoder to extract generic image features, and a multimodal encoder (i.e. Q-Former) for image-text alignment. The pretrained U-Net is connected with ControlNet for structure control and it combines subject prompt embeddings with text prompt embeddings for multimodal controlled generation where cross attention maps create a mask for regions to be edited. This is an efficient zero-shot subject-driven image generation. 
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
   We will also attempt to use cross attention control, i.e, subject embeddings along with text embeddings to guide which portions of the image to edit based on the text prompt. 
 </p>
 
-### Image Generation Models
+#### Image Generation Models
 <p style="font-weight:bold">
   [5]“Denoising Diffusion Probabilistic Models”by Ho et.al (2020)</p><p> introduces a new class of generative models called Denoising Diffusion Probabilistic Models (DDPMs) for image synthesis. DDPMs generate high-quality images by gradually adding noise to an initial random noise image and then "denoising" it back to a realistic image through a series of steps.
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
   We understand that DDPM-based frameworks suit text guided image generation tasks best. 
 </p>
@@ -84,9 +85,22 @@ We believe we can improve our model by incorporating the appearance control modu
   [6]“InstructPix2Pix Learning to Follow Image Editing Instructions” by Brooks et al (2023)</p><p> suggest DDPMs are powerful models for generating high-quality images, but they usually struggle with tasks like image editing due to their inherent noise removal process. This paper proposes InstructPix2Pix, a DDPM-based framework that leverages text instructions to guide the editing process while preserving image details.
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
   We also plan to use InstructPix2Pix module of StableDiffusion for the text guided image editing task. 
+</p>
+
+### Our Project in Context
+<p>
+- Previous Work in the field of Subject Guided Image Generation used only text prompts or reference image inputs, they did not utilize both modalities. 
+    - Existing methods gave text inputs to guide SD models to generate an image matching up to the prompt given, for which they finetuned the CLIP Encoder for the model to better understand the text   
+      inputs and what parts of the image should be editted.
+    - Methods that provided image as the input used ControlNet along with SD to trasfer the pose. But preserving the appearance and enhancing generalizability of these models is still an area of 
+      research.
+- Our project attempts to combine the visual and language modalities.
+   - The user can provide an image A as input, which is the image to be modified, and an image B which contains the pose that A should be modified to replicate.
+   - The user can also provide a text prompt on how to edit the original image A, such as adding accessories, changing attributes of appearance, or style of the image.
+- Subject Guided Image Generation and Editting, achieved by our project, has not be addressed by existing works, and we have managed to address this gap through our project.
 </p>
 
 ## Approach
