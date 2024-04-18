@@ -54,16 +54,14 @@ We believe we can improve our model by incorporating the appearance control modu
 </p>
 
 #### Multimodal Image Generation
-<p style="font-weight:bold">
-  [3]“UNIMO-G: Unified Image Generation through Multimodal Conditional Diffusion” by Wei Li et al. (2024)</p><p> presents zero-shot multi-entity subject-driven generations through multimodal instructions or MLLM framework — a conditional denoising diffusion network for generating images based on the encoded multimodal input. They leverage a two-step training process: First is text-to-image training using a denoising diffusion UNet architecture and conditioning it on the text using a cross-attention mechanism. Then, the multimodal instruction tuning is achieved by training using millions of pairs of multimodal prompts created using DINO and SAM based data processing pipeline to improve the capability of multimodal generation.
+<p style="font-weight:bold">[3]“UNIMO-G: Unified Image Generation through Multimodal Conditional Diffusion” by Wei Li et al. (2024)</p><p> presents zero-shot multi-entity subject-driven generations through multimodal instructions or MLLM framework — a conditional denoising diffusion network for generating images based on the encoded multimodal input. They leverage a two-step training process: First is text-to-image training using a denoising diffusion UNet architecture and conditioning it on the text using a cross-attention mechanism. Then, the multimodal instruction tuning is achieved by training using millions of pairs of multimodal prompts created using DINO and SAM based data processing pipeline to improve the capability of multimodal generation.
 </p>
 
 **`Takeaway:`**
 <p>
   The efficacy of the text-to-image pretraining on the denoising U-Net shown by this work inspires us to try this out for our text based image enhancement and style edit endeavour.
 </p>
-<p style="font-weight:bold">
-  [4]“BLIP-Diffusion: Pre-trained Subject Representation for Controllable Text-to-Image Generation and Editing” by SalesForce AI Research (2023)</p><p> introduces a new subject-driven image generation model that supports multimodal control, taking images and text prompts as subject inputs. It trains a multimodal encoder to extract visual features from the subject image and the multimodal module to provide subject representations that align with the text. It also uses Stable DIffusion for learning this subject representation and producing it, CLIP is the text encoder that generates the text embeddings, and 2 modules of BLIP-2 a frozen pre-trained image encoder to extract generic image features, and a multimodal encoder (i.e. Q-Former) for image-text alignment. The pretrained U-Net is connected with ControlNet for structure control and it combines subject prompt embeddings with text prompt embeddings for multimodal controlled generation where cross attention maps create a mask for regions to be edited. This is an efficient zero-shot subject-driven image generation. 
+<p style="font-weight:bold">[4]“BLIP-Diffusion: Pre-trained Subject Representation for Controllable Text-to-Image Generation and Editing” by SalesForce AI Research (2023)</p><p> introduces a new subject-driven image generation model that supports multimodal control, taking images and text prompts as subject inputs. It trains a multimodal encoder to extract visual features from the subject image and the multimodal module to provide subject representations that align with the text. It also uses Stable DIffusion for learning this subject representation and producing it, CLIP is the text encoder that generates the text embeddings, and 2 modules of BLIP-2 a frozen pre-trained image encoder to extract generic image features, and a multimodal encoder (i.e. Q-Former) for image-text alignment. The pretrained U-Net is connected with ControlNet for structure control and it combines subject prompt embeddings with text prompt embeddings for multimodal controlled generation where cross attention maps create a mask for regions to be edited. This is an efficient zero-shot subject-driven image generation. 
 </p>
 
 **`Takeaway:`**
@@ -93,12 +91,12 @@ We believe we can improve our model by incorporating the appearance control modu
 ### Our Project in Context
 
 * <p> Previous Work in the field of Subject Guided Image Generation used only text prompts or reference image inputs, they did not utilize both modalities. </p>
-</t> * <p> Existing methods gave text inputs to guide SD models to generate an image matching up to the prompt given, for which they finetuned the 
+* <p> Existing methods gave text inputs to guide SD models to generate an image matching up to the prompt given, for which they finetuned the 
 CLIP Encoder for the model to better understand the text inputs and what parts of the image should be editted. </p>
-</t> * <p> Methods that provided image as the input used ControlNet along with SD to trasfer the pose. But preserving the appearance and enhancing generalizability of these models is still an area of research.</p>
+* <p> Methods that provided image as the input used ControlNet along with SD to trasfer the pose. But preserving the appearance and enhancing generalizability of these models is still an area of research.</p>
 * <p> Our project attempts to combine the visual and language modalities.</p>
-    * <p> The user can provide an image A as input, which is the image to be modified, and an image B which contains the pose that A should be modified to replicate.</p>
-    * <p>The user can also provide a text prompt on how to edit the original image A, such as adding accessories, changing attributes of appearance, or style of the image.</p>
+* <p> The user can provide an image A as input, which is the image to be modified, and an image B which contains the pose that A should be modified to replicate.</p>
+* <p>The user can also provide a text prompt on how to edit the original image A, such as adding accessories, changing attributes of appearance, or style of the image.</p>
 * <p>Subject Guided Image Generation and Editting, achieved by our project, has not be addressed by existing works, and we have managed to address this gap through our project.</p>
 
 ## Approach
