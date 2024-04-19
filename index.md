@@ -90,13 +90,13 @@ We believe we can improve our model by incorporating the appearance control modu
 
 ### Our Project in Context
 
-* <p> Previous Work in the field of Subject Guided Image Generation used only text prompts or reference image inputs, they did not utilize both modalities. </p>
-* <p> Existing methods gave text inputs to guide SD models to generate an image matching up to the prompt given, for which they finetuned the CLIP Encoder for the model to better understand the text inputs and what parts of the image should be editted. </p>
-* <p> Methods that provided image as the input used ControlNet along with SD to trasfer the pose. But preserving the appearance and enhancing generalizability of these models is still an area of research.</p>
-* <p> Our project attempts to combine the visual and language modalities.</p>
-* <p> The user can provide an image A as input, which is the image to be modified, and an image B which contains the pose that A should be modified to replicate.</p>
-* <p>The user can also provide a text prompt on how to edit the original image A, such as adding accessories, changing attributes of appearance, or style of the image.</p>
-* <p>Subject Guided Image Generation and Editting, achieved by our project, has not be addressed by existing works, and we have managed to address this gap through our project.</p>
+* Previous Work in the field of Subject Guided Image Generation used only text prompts or reference image inputs, they did not utilize both modalities.
+  * Existing methods gave text inputs to guide SD models to generate an image matching up to the prompt given, for which they finetuned the CLIP Encoder for the model to better understand the text inputs and what parts of the image should be editted.
+  * Methods that provided image as the input used ControlNet along with SD to trasfer the pose. But preserving the appearance and enhancing generalizability of these models is still an area of research.
+* Our project attempts to combine the visual and language modalities.</p>
+  * The user can provide an image A as input, which is the image to be modified, and an image B which contains the pose that A should be modified to replicate.
+  * The user can also provide a text prompt on how to edit the original image A, such as adding accessories, changing attributes of appearance, or style of the image.
+  * Subject Guided Image Generation and Editting, achieved by our project, has not be addressed by existing works, and we have managed to address this gap through our project.
 
 ## Approach
 
@@ -111,9 +111,9 @@ The overall approach is divided in 3 modules.
 * This is handled by the `ControlledUnetModelAttnPose` which inherits from [Open AI's guided diffusion U-Net](https://github.com/openai/guided-diffusion/blob/main/guided_diffusion/unet.py) class which follows the same architecture as the SD UNet. 
   * `ControlledUnetModelAttnPose` replicates the architecture of the SD U-Net which helps in controlling the generation process of pre-trained diffusion model via multi source attention layers, enabling more flexible information interchange among distant pixels, flexible emphasis on certain regions. And therefore it is more suited for the task of pose retargeting.
   * It also extends the capabilities of the parent U-Net architecture, incorporating advanced features of dynamic cross-attention mechanisms using spatial transformers applied at resolutions 1,2 and 4 with a model channel width of 320 and a context dimension of 768 aiding it to better learn the certain original representations in the image as dictated by the middle block of the U-Net.
-    * The middle block of the U-Net consists of one or more convolutional layers that process the deepest, most compressed representation of the input data. This block is crucial for capturing the high-level context of the input image, which is then used by the decoder to generate detailed segmentations or manipulations of the input.
-  * The Appearance Control starts by masking each of the body, face and pose of the input image and as given as input to `ControlledUnetModelAttnPose`'s `forward()` which applies attention on the whole image and stores the attention head representation, and then spatial transformations and attention on the middle block and finally the decoder of the U-Net produces a complete image recovering the masked portion. This way the module learns the original representations of the input image well. 
-  * The base latent diffusion model used is Stable Diffusion V1.5
+  * The middle block of the U-Net consists of one or more convolutional layers that process the deepest, most compressed representation of the input data. This block is crucial for capturing the high-level context of the input image, which is then used by the decoder to generate detailed segmentations or manipulations of the input.
+* The Appearance Control starts by masking each of the body, face and pose of the input image and as given as input to `ControlledUnetModelAttnPose`'s `forward()` which applies attention on the whole image and stores the attention head representation, and then spatial transformations and attention on the middle block and finally the decoder of the U-Net produces a complete image recovering the masked portion. This way the module learns the original representations of the input image well. 
+* The base latent diffusion model used is Stable Diffusion V1.5
 
 2. **Appearance-Disentangled Pose Control Module (ADPCM)** involves finetuning the Stable Diffusion ControlNet pipeline to use the ACM instead of just stable diffusion. This finetuning helps to disentangle pose re-targeting from the appearance. We basically have to finetune these modules with pairs of source image-pose and target image. Using a dataset where images with multiple poses of the same person are available will be used.
 #### Architecture
