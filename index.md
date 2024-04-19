@@ -4,11 +4,11 @@ layout: default
 # PoseMaster Fusion: Transforming Images by capturing Pose Dynamics
 ## Contents
 1. [Introduction](#introduction)
-  * [Project Description](##project-description)
-  * [Motivation](###why-is-there-a-need-for-such-a-model-?)
+  * [Project Description](#project-description)
+  * [Motivation](#why-is-there-a-need-for-such-a-model-?)
 2. [Related Work](#related-work)
-  * [Explaining Context](##explaining-context)
-  * [Motivation](###why-is-there-a-need-for-such-a-model-?)
+  * [Explaining Context](#explaining-context)
+  * [Our Project in Context](#our-project-in-context)
 3. [Approach](#approach)
 4. [Experiments and Results](#experiments-and-results)
 5. [Future Steps](#future-steps)
