@@ -22,7 +22,7 @@ layout: default
 6. [Discussion](#discussion)
 7. [Challenges](#challenges)
 8. [Contribution](#contribution)
-9. [References](#references)
+8. [References](#references)
 
 ## Introduction
 ### Project Description
@@ -216,7 +216,7 @@ We will aim to address this issue with a improved pose-transfer model that we wi
 
 **Experiment 4: Text Conditioned image Editing**
 * Loading in a pretrained Stable Diffusion v1.4 model, the diffusion process is performed in the latent space (of size 4ˆ64ˆ64) of its pre-trained autoencoder, working with 512ˆ512-pixel images.
-* We optimize the latent space by freezing the SD backbone and finetuning the CLIPEncoder for 1000 steps with a learning rate of 2e^3 using Adam. T
+* We optimize the latent space by freezing the SD backbone and finetuning the CLIPEncoder for 1000 steps with a learning rate of 2e^3 using Adam.
 * Then, we fine-tune the diffusion model after freezing the CLIPEncoder for 1500 steps with a learning rate of 5e^7 using Adam.
 ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/517ca014-e1ac-43f8-b644-e7dfd58d2ebb)
 ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/167814f7-5747-4123-9521-ba78e721af95)
@@ -228,6 +228,7 @@ We will aim to address this issue with a improved pose-transfer model that we wi
 <p> 
   We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. 
 </p>
+
 ### Expected Output
 
 
@@ -243,25 +244,37 @@ The metric of success we can use on our finally developed model is:
  * Pose alignment but also maintain high perceptual quality.
  * Better user satisfaction with the pose-transferred images.
 
-## Future Steps
+## Results
 
-| Tasks | Anticipated Date of Completion |
-|:------|:-------------------------------|
-| Design an Appearance Control Module using a pretrained SD U-Net and auxiliary U-Net. | Mar 31 |
-| Finetune ControlNet with the Appearance Control Module, freezing the Auxiliary U-Net to preserve appearance, thus creating an Appearance Disentangled Pose Control Module. | Apr 4 |
-| Understand and incorporate text-guided enhancements via the InstructPix2Pix module of SD. | Apr 8 |
-| Evaluate the entire model's results based on the decided metrics. | Apr 12 |
-| Examine the model's generalizability on other datasets, such as the frames from the [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset), if possible. | Apr 16 |
+## Discussion
+* We propose a novel image editing method called `PoseMaster Fusion` which edits images by transfering poses and making edits conditioned by text prompts. To that end, we utilize a pre-trained text-to-image diffusion model, optimize and finetune it to fit the image better and interpolate between the embedding representing the image and the target text embedding, obtaining a semantically meaningful mixture of them thus resulting in accurately edited images. These are then fed into a Appearance Disentangled Pose Control Module along with the pose that is to be transfered to seamlessly incorporate the pose and facial expression while enabling the generation of consistent inages without any further fine-tuning. This Text Conditioned Subject Driven Image Editing Mechanism is non rigid, preserves appearance, quick and accurate.
+* Through this project we learnt a lot about Diffusion Models, their architecture, how to modify their architecture for spatial manipulations or for enhanced attention.
+* We learnt about DDIM Sampling and Stochastic DDPM schemes for effectively finetuning these Diffusion Models.
+* Through our exploration, we learnt more about current research trends in the field of Computer Vision and speficially generative models. We surveyed a lot of different models and analysed their pros and cons such as T2I Adapters and Older SD Versions.
+* Our future work may focus on performing full body pose transfer as most datasets we used had more data related to just the upper body and very few samples for the whole frame. We also plan to extend our framework to improve the fidelity of image editing by enhancing the Text-conditioned Image editing to perform well for complex and longer prompts by training it more.
+* Minimizing artifacts and inconsistencies in the generated images, especially in complex or uncommon poses, proved difficult. Improving the model's understanding and handling of background and foreground elements to alleviate these issues will be a focus of our future optimization efforts.
+
+## Challenges
+* We were often limited by the access to limited computation resources for limited time which significantly hindered our pace and progress. The computational demands of fine-tuning our models, especially given the complexity and scale of the data involved, were substantial. Managing these demands while ensuring efficient use of resources required meticulous planning.
+* We also felt there was a dearth of good human pose datasets. A dataset with a lot of images of the same person in different poses would be ideal for pose transfer tasks, such datasets were scarce or not diverse enough, impacting our model's generalizability. Using Youtube and TikTok Video Frames, which is the current solution, results in poor quality of results due to occlusions and blur.
+* Achieving a balance between maintaining the original image's identity and characteristics while accurately transferring new poses was challenging. Ensuring that the model could handle various poses without losing the subject's essence required careful tuning of model parameters and innovative use of attention mechanisms.
+* Integrating ControlNet for pose transfer with existing frameworks like Stable Diffusion presented a significant technical challenge. Ensuring compatibility, optimizing data flow, and maintaining performance across different components of our pipeline required a deep understanding of each model's inner workings and considerable trial and error.
+**Reflection**
+  These challenges, while daunting, spurred innovation and collaboration within our team. They pushed us to explore novel solutions, delve deeper into the theoretical underpinnings of our work, and refine our approach through iterative testing and learning. The project's hurdles have prepared us better for future endeavors in the field of AI and image synthesis, highlighting the importance of resilience, creativity, and rigorous scientific inquiry in overcoming obstacles.
+  If we were to start over, we would probably start sooner and collaborate more often to ensure steady progress over the project. We would also make better choices of datasets, our prepare our own dataset with a collection of clear, diverse stock images.
+  
+
 
 ## Contribution
 
 | Tasks | Member |
 |:------|:-------|
-| Design an Appearance Control Module using a pretrained SD U-Net and auxiliary U-Net. | Aparna and Shubham |
+|Exploration of Methods and Experiment Setup| All|
+| Design an Appearance Control Module using a pretrained SD U-Net and auxiliary U-Net. | Shubham |
 | Finetune ControlNet with the Appearance Control Module, freezing the Auxiliary U-Net to preserve appearance, thus creating an Appearance Disentangled Pose Control Module. | Poojitha |
-| Understand and incorporate text-guided enhancements via the InstructPix2Pix module of SD. | Poojitha |
+| Understand and incorporate text-guided enhancements via the InstructPix2Pix module of SD. | Aparna |
 | Evaluate the entire model's results based on the decided metrics. | Shubham |
-| Examine the model's generalizability on other datasets, such as the frames from the [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset), if possible. | Aparna |
+| Examine the model's generalizability on other datasets, such as the frames from the [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset) | Aparna and Poojitha|
 | Update the website and maintain the repository. | All |
 
 
@@ -284,3 +297,7 @@ The metric of success we can use on our finally developed model is:
 [7] [Stable Diffusion ControlNet Reference Pipeline](https://github.com/huggingface/diffusers/blob/main/examples/community/README.md#stable-diffusion-controlnet-reference)
 
 [8] [IP-Adapter for ControlNet](https://github.com/tencent-ailab/IP-Adapter/blob/main/ip_adapter_controlnet_demo_new.ipynb)
+
+[9] [Text Guided Image Editing](https://github.com/justinpinkney/stable-diffusion)
+
+[10] [Identity Aware Pose Retargeting](https://github.com/Boese0601/MagicDance/tree/main)
