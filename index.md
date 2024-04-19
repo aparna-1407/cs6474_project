@@ -4,14 +4,22 @@ layout: default
 # PoseMaster Fusion: Transforming Images by capturing Pose Dynamics
 ## Contents
 1. [Introduction](#introduction)
-2. [Previous Work](#previous-work)
+  * [Project Description](#project-description)
+  * [Motivation](#why-is-there-a-need-for-such-a-model-?)
+2. [Related Work](#related-work)
+  * [Explaining Context](#explaining-context)
+  * [Our Project in Context](#our-project-in-context)
 3. [Approach](#approach)
+  * [Overall Pipeline- Method Overview](#overall-pipeline)
+  * [Contribution](#contribution)
+  * [Rationale for Success- Intuition](#rationale-for-success)
 4. [Experiments and Results](#experiments-and-results)
 5. [Future Steps](#future-steps)
 6. [Contribution](#contribution)
 7. [References](#references)
 
 ## Introduction
+### Project Description
 <p align="justify">
 PoseMaster Fusion is a diffusion based model for 2D human pose re-targeting. Specifically, given a reference image, the model aims to generate a set of new images of the person by controlling the poses and other features such as the style while keeping the identity unchanged. At its core, this project seeks to revolutionize the way we interact with and manipulate images, providing users with unprecedented control over the pose dynamics of their digital images. By leveraging the ability of control nets to understand and map poses from reference images or doodles, and harmonizing this with the generative capabilities of stable diffusion models, Pose Master Fusion attempts to synthesize images disentangling appearance from pose and style. 
 </p>
@@ -34,48 +42,47 @@ This exploration is not just a technical endeavor but a response to the growing 
 The challenges in creating a cohesive system that can accurately interpret human poses, translate them into a different context while retaining the original image's essence, and produce results that are both visually stunning and contextually appropriate are immense. Through PoseMaster Fusion, we attempt to create a model that generalizes well and enables robust appearance control while leveraging the prior knowledge of Stable Diffusion models and ControlNet.
 </p>
 
-## Previous Work
-### Controlled Image Synthesis
+## Related Work
+### Explaining Context
+#### Controlled Image Synthesis
 <p style="font-weight:bold">[1]"MasaCtrl: Tuning-Free Mutual Self-Attention Control for Consistent Image Synthesis and Editing" by Cao et al. (2023)</p><p> proposes to change pose, view, structures, and non-rigid variances of the source image while maintaining the characteristics, texture, and identity by converting existing self attention in diffusion models into mutual self-attention, so that it can query correlated local contents and textures from source images for consistency. To further alleviate the query confusion between foreground and background, they propose a mask-guided mutual self-attention strategy, where the mask can be easily extracted from the cross-attention maps in diffusion models to separate foreground and background. Thye change the non-rigid attributes (e.g., changing object pose) using only text prompts. The pipeline proposed is that the user feeds an image prompt Ps to describe the source image, a modified target prompt Pt (changing just one word in the source prompt) and provides the source image. The mutual attention mechanism queries image content so that it can generate consistent images under the modified target prompt. The mutual attention and cross attention layer extracts informations about features relevant for the target prompt from its knowledge and synthesize a semantic layout. The denoising U-Net injects this information to the source retaining consistency because of the separation of foreground and background. This pipeline that is solely controlled by text prompts along with Stable Diffusion was observed to be ineffective, so T2I adapters were also integrated for more stable synthesis. The major disadvantages are being limited by the knowledge of stable diffusion to generate the target prompt and impact of artifacts or change in background or other inconsistencies with the target prompt. 
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
-We believe we can improve our model by incorporating the idea of poses instead of attention maps, avoiding text guidance and focusing on just pose driven image synthesis, integrating ControlNet and T2I adapters as they are superior in image editing than just prompt guide image synthesis by Stable Diffusion and finetuning the model on our dataset to adapt to artifacts and changes in appearance and improving knowledge.
+by focusing more on pose adjustments rather than solely on attention maps and eliminating the reliance on text prompts for guiding image synthesis. By integrating mechanisms similar to ControlNet and T2I adapters, which have shown superior performance in image editing beyond what can be achieved with mere prompt-based synthesis by Stable Diffusion, our model could enhance its editing capabilities. Furthermore, fine-tuning our model on a tailored dataset will allow it to better handle potential artifacts and variations in appearance, thereby expanding its understanding and ability to generate target prompts more effectively.
 </p>
 
 <p style="font-weight:bold">[2] "MagicPose: Realistic Human Poses and Facial Expressions Retargeting with Identity-aware Diffusion" by Chang et al. (2024)</p><p> proposes a diffusion model based 2d human pose and facial expression re-targeting. To retain identity or consistency of source image they explored connecting the attention layers of diffusion U-Net to provide layer-by-layer attention guidance and retain the apperance of the source image as these layers are highly relevant to the appearance of the generated images. They thus pretain the Stable Diffusion U-Net along with a "Appearance Control Module" that has self attention layers, the key-value pairs are connected together and attention is calculated. ControlNet copies the encoder and middle blocks of SD-UNet, whose output feature maps are added to the decoder of SD-UNet to realize pose control while retaining the appearance. To enhance the entanglement, they fine-tune the Pose ControlNet jointly with the Appearance Control Module, achieving enhanced results.
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
 We believe we can improve our model by incorporating the appearance control module and finetuning our ControlNet with it.
 </p>
 
-### Multimodal Image Generation
-<p style="font-weight:bold">
-  [3]“UNIMO-G: Unified Image Generation through Multimodal Conditional Diffusion” by Wei Li et al. (2024)</p><p> presents zero-shot multi-entity subject-driven generations through multimodal instructions or MLLM framework — a conditional denoising diffusion network for generating images based on the encoded multimodal input. They leverage a two-step training process: First is text-to-image training using a denoising diffusion UNet architecture and conditioning it on the text using a cross-attention mechanism. Then, the multimodal instruction tuning is achieved by training using millions of pairs of multimodal prompts created using DINO and SAM based data processing pipeline to improve the capability of multimodal generation.
+#### Multimodal Image Generation
+<p style="font-weight:bold">[3]“UNIMO-G: Unified Image Generation through Multimodal Conditional Diffusion” by Wei Li et al. (2024)</p><p> presents zero-shot multi-entity subject-driven generations through multimodal instructions or MLLM framework — a conditional denoising diffusion network for generating images based on the encoded multimodal input. They leverage a two-step training process: First is text-to-image training using a denoising diffusion UNet architecture and conditioning it on the text using a cross-attention mechanism. Then, the multimodal instruction tuning is achieved by training using millions of pairs of multimodal prompts created using DINO and SAM based data processing pipeline to improve the capability of multimodal generation.
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
   The efficacy of the text-to-image pretraining on the denoising U-Net shown by this work inspires us to try this out for our text based image enhancement and style edit endeavour.
 </p>
-<p style="font-weight:bold">
-  [4]“BLIP-Diffusion: Pre-trained Subject Representation for Controllable Text-to-Image Generation and Editing” by SalesForce AI Research (2023)</p><p> introduces a new subject-driven image generation model that supports multimodal control, taking images and text prompts as subject inputs. It trains a multimodal encoder to extract visual features from the subject image and the multimodal module to provide subject representations that align with the text. It also uses Stable DIffusion for learning this subject representation and producing it, CLIP is the text encoder that generates the text embeddings, and 2 modules of BLIP-2 a frozen pre-trained image encoder to extract generic image features, and a multimodal encoder (i.e. Q-Former) for image-text alignment. The pretrained U-Net is connected with ControlNet for structure control and it combines subject prompt embeddings with text prompt embeddings for multimodal controlled generation where cross attention maps create a mask for regions to be edited. This is an efficient zero-shot subject-driven image generation. 
+<p style="font-weight:bold">[4]“BLIP-Diffusion: Pre-trained Subject Representation for Controllable Text-to-Image Generation and Editing” by SalesForce AI Research (2023)</p><p> introduces a new subject-driven image generation model that supports multimodal control, taking images and text prompts as subject inputs. It trains a multimodal encoder to extract visual features from the subject image and the multimodal module to provide subject representations that align with the text. It also uses Stable DIffusion for learning this subject representation and producing it, CLIP is the text encoder that generates the text embeddings, and 2 modules of BLIP-2 a frozen pre-trained image encoder to extract generic image features, and a multimodal encoder (i.e. Q-Former) for image-text alignment. The pretrained U-Net is connected with ControlNet for structure control and it combines subject prompt embeddings with text prompt embeddings for multimodal controlled generation where cross attention maps create a mask for regions to be edited. This is an efficient zero-shot subject-driven image generation. 
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
   We will also attempt to use cross attention control, i.e, subject embeddings along with text embeddings to guide which portions of the image to edit based on the text prompt. 
 </p>
 
-### Image Generation Models
+#### Image Generation Models
 <p style="font-weight:bold">
   [5]“Denoising Diffusion Probabilistic Models”by Ho et.al (2020)</p><p> introduces a new class of generative models called Denoising Diffusion Probabilistic Models (DDPMs) for image synthesis. DDPMs generate high-quality images by gradually adding noise to an initial random noise image and then "denoising" it back to a realistic image through a series of steps.
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
   We understand that DDPM-based frameworks suit text guided image generation tasks best. 
 </p>
@@ -84,30 +91,69 @@ We believe we can improve our model by incorporating the appearance control modu
   [6]“InstructPix2Pix Learning to Follow Image Editing Instructions” by Brooks et al (2023)</p><p> suggest DDPMs are powerful models for generating high-quality images, but they usually struggle with tasks like image editing due to their inherent noise removal process. This paper proposes InstructPix2Pix, a DDPM-based framework that leverages text instructions to guide the editing process while preserving image details.
 </p>
 
-#### Takeaway:
+**`Takeaway:`**
 <p>
   We also plan to use InstructPix2Pix module of StableDiffusion for the text guided image editing task. 
 </p>
 
+### Our Project in Context
+
+* Previous Work in the field of Subject Guided Image Generation used only text prompts or reference image inputs, they did not utilize both modalities.
+  * Existing methods gave text inputs to guide SD models to generate an image matching up to the prompt given, for which they finetuned the CLIP Encoder for the model to better understand the text inputs and what parts of the image should be editted.
+  * Methods that provided image as the input used ControlNet along with SD to trasfer the pose. But preserving the appearance and enhancing generalizability of these models is still an area of research.
+* Our project attempts to combine the visual and language modalities.</p>
+  * The user can provide an image A as input, which is the image to be modified, and an image B which contains the pose that A should be modified to replicate.
+  * The user can also provide a text prompt on how to edit the original image A, such as adding accessories, changing attributes of appearance, or style of the image.
+  * Subject Guided Image Generation and Editting, achieved by our project, has not be addressed by existing works, and we have managed to address this gap through our project.
+
 ## Approach
 
 ### Overall Pipeline
-
 <p align="center">
- <img width="678" alt="image" src="https://github.com/aparna-1407/cs6474_project/assets/93538009/34d0a200-aec0-4246-bbf9-35d6417490f4">
+  <img width="1012" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/b1295539-50fb-4d97-a373-a0c9b1846819">
 </p>
 The overall approach is divided in 3 modules.
 
-1. <p style="font-weight:bold">The Appearance Control Module (ACM)</p><p> which consists of the Stable Diffusion V1.5 and a similar Denoising U-Net where the attention layer outputs are calculated by concatenating the key-value pair values between the corresponding self attention layers. This is done because the output of the self-attention layers is responsible for the appearance of the generated image and adding the auxiliary U-Net and concatinating its key-value pairs is equivalent to reinforcing the source image's appearance.</p>
-2.  <p style="font-weight:bold">Appearance-Disentangled Pose Control Module (ADPCM) </p><p> involves finetuning the Stable Diffusion ControlNet pipeline to use the ACM instead of just stable diffusion. This finetuning helps to disentangle pose re-targeting from the appearance. We basically have to finetune these modules with pairs of source image-pose and target image. Using a dataset where images with multiple poses of the same person are available will be used.</p>
-3. <p style="font-weight:bold">Text Guided Enhancement Module</p><p>which consists of a text encoder which creates prompt embeddings and we combine this prompt embeddings used with subject/source embeddings (understanding the structure of the source) generated by the InstructPix2Pix model within stable diffusion. The cross attention layers of stable diffusion's cross attention layers uses the embeddings and masks regions to be edited and the prompt embeddings guides the editing. This will leverage the prior knowledge of stable diffusion and not require any finetuning.</p>
+1. <p style="font-weight:bold">The Appearance Control Module (ACM)</p><p> which consists of the Stable Diffusion V1.5 and a similar Denoising U-Net where the attention layer outputs are calculated by concatenating the key-value pair values between the corresponding self attention layers. This is done because the output of the self-attention layers is responsible for the appearance of the generated image and the integration of the auxiliary U-Net and concatinating its key-value pairs is equivalent to reinforcing the source image's appearance.</p>
+#### Architecture
+* This is handled by the `ControlledUnetModelAttnPose` which inherits from [Open AI's guided diffusion U-Net](https://github.com/openai/guided-diffusion/blob/main/guided_diffusion/unet.py) class which follows the same architecture as the SD UNet. 
+  * `ControlledUnetModelAttnPose` replicates the architecture of the SD U-Net which helps in controlling the generation process of pre-trained diffusion model via multi source attention layers, enabling more flexible information interchange among distant pixels, flexible emphasis on certain regions. And therefore it is more suited for the task of pose retargeting.
+  * It also extends the capabilities of the parent U-Net architecture, incorporating advanced features of dynamic cross-attention mechanisms using spatial transformers applied at resolutions 1,2 and 4 with a model channel width of 320 and a context dimension of 768 aiding it to better learn the certain original representations in the image as dictated by the middle block of the U-Net.
+  * The middle block of the U-Net consists of one or more convolutional layers that process the deepest, most compressed representation of the input data. This block is crucial for capturing the high-level context of the input image, which is then used by the decoder to generate detailed segmentations or manipulations of the input.
+* The Appearance Control starts by masking each of the body, face and pose of the input image and as given as input to `ControlledUnetModelAttnPose`'s `forward()` which applies attention on the whole image and stores the attention head representation, and then spatial transformations and attention on the middle block and finally the decoder of the U-Net produces a complete image recovering the masked portion. This way the module learns the original representations of the input image well. 
+* The base latent diffusion model used is Stable Diffusion V1.5
 
-> For Project Update-1, we have completed part of the Pose Control Module. We have identified how to set up the pipeline corrently and how ControlNet works best with Stable Diffusion to generate the right output. More details on the different approaches attempted are explained in the next sections. Only during the set up of our pipeline did we realize that ControlNet doesn't preserve appearance and based on further research arrived at the current architecture. So our future steps would be to build a fine-tuned ACM and then incorporate within the pipeline to create the ADPCM.
+2. **Appearance-Disentangled Pose Control Module (ADPCM)** involves finetuning the Stable Diffusion ControlNet pipeline to use the ACM instead of just stable diffusion. This finetuning helps to disentangle pose re-targeting from the appearance. We basically have to finetune these modules with pairs of source image-pose and target image. Using a dataset where images with multiple poses of the same person are available will be used.
+#### Architecture
+* This is handled by the `ControlledUnetModelAttnPose` and `ControlNetReference` which inherits from [original ControlNet architecture](https://github.com/lllyasviel/ControlNet/blob/main/cldm/cldm.py).
+  * `ControlledUnetModelAttnPose` has a `pose_control` flag which gets encoded vectors from the `ControlNetReference` module which it concatenates within the feature maps of the original image. The output encoded vectors from `ControlNetReference` convey exactly how the vectors should be embedded within the feature map due to the presence of `hint_channels` in `ControlNetReference`, allowing the model to integrate additional hint or guiding information directly into the generation process. This enhances capabilities of parent ControlNet architecture to exclusively modulate the pose attributes of the original image, while the Appearance Control Model focuses on appearance control. The spatial transformers added to `ControlNetReference` applies attention-driven spatial manipulations, providing flexibility in handling complex spatial relationships in the data, ensuring the pose is translated correctly. 
+  * The Appearance Disentangled Pose Control is achieved by jointly fine-tuning the ACM with `ControlNetReference`. The blocks of `ControlledUnetModelAttnPose` associated with embedding ControlNet vectors in feature maps alone is left unfrozen and finetuned with `ControlNetReference` so that appearance of the generated image is preserved while trying to accurately transfer the pose.
+    
+3. **Text Guided Enhancement Module** which consists of a text encoder which creates prompt embeddings and we combine this prompt embeddings used with subject/source embeddings (understanding the structure of the source) generated by the InstructPix2Pix model within stable diffusion. The finetuning diffusion process creates an interpolation of the embedding space to understand the prompt generated to describe the input image and the actual text prompt thereby creating an optimized text embedding to indicate parts of the image that should be changed and how. The cross attention layers of stable diffusion's cross attention layers uses the embeddings and masks regions to be edited and the prompt embeddings guides the editing. This will leverage the prior knowledge of stable diffusion and not require any finetuning.
+#### Architecture
+<p align="center">
+<img width="800" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/50ac9d85-990c-4834-acf7-2b9e88854cbb">
+</p>
+
+* This architecture has 3 modules- Embedding Optimization, Finetuning Diffusion Model and Interpolating Embedding space. We use the CLIP Text Encoder present within SD and SD V1.4 for this module as it is most stable.
+  *  Given the target prompt A and the image B, the CLIP Encoder tries to determine a text embedding x describing image B and a text embedding y for prompt A with an objective of reducing the distance between x and y. The reason for determining close x and y is to minimize the number of edits to make to the image, or retain substantial amounts of the original image while editing only whatever is absolutely necessary. This is achieved by freezing the parameters of the generative diffusion model, and optimizing the CLIP Encoder using the denoising diffusion objective using a DDIM Sampler. While the denoising diffusion objective focuses on how to train a model to reverse the diffusion process accurately, the DDIM sampler offers a way to perform this reverse process more efficiently during inference. It leverages the trained model to produce samples in fewer steps by following an implicit trajectory in the noise space.
+  * We fine-tune the diffusion models while freezing the CLIP Encoder to generate image C similar to text embedding x with an objective to reduce the reconstruction loss between image C and image B. This is to synchronise the diffusion model and the encoder to ensure that the generation process targets the areas of the image as necessary, in order to find a point that achieves both fidelity to the input image and target text alignment.
+  * Since the generative diffusion model is now trained to fully recreate the input image B at the optimized embedding x, we use it to apply the desired edit A by advancing in the direction of the target text embedding y. We apply the base generative diffusion process SD 1.4 to generate an low-resolution edited image capturing features of A, which is then super-resolved using the fine-tuned SD backbone, conditioned on the target text y. This generative process outputs our final high resolution edited image D. The finetuned SD backbone retains the details of the original image and retargets regions specified by target embedding y. The new editted features of the image are supplied by the base SD1.4 as it has vast knowledge to generate the desired edit. 
+
+
+> For Project Update-1, we completed part of the Pose Control Module. We identified how to set up the pipeline corrently and how ControlNet works best with Stable Diffusion to generate the right output. More details on the different approaches attempted are explained in the next sections. We first evaluated vanilla ControlNet for appearance control, we found that ControlNet is not able to maintain the appearance when generating human images of different poses, making it unsuitable for the re-targeting task. Based on further research and experimentation, we arrived at the current architecture.
+
+### Contribution
+The MagicPose[2](https://arxiv.org/pdf/2311.12052.pdf) is the current SOTA in Identity-aware Diffusion and retrageting Poses. We have followed the approach presented by this paper for appearance controlled pose transfer. Following MagicPose, we managed to achieve pose and expression retargeting with a superior capacity to generalize over diverse human identities, however, what we found lacking was subject conditioned image editing which could provide a complete image editing experience to the user. So our contribution to build on MagicPose is to integrate a Text-Conditioned Image Editing pipeline that performs non-trivial semantic edits to real photos in a seamless fashion. Inspired by [Imagic](https://arxiv.org/pdf/2210.09276.pdf), we have created a pipeline which when given only an
+input image to be edited and a single text prompt describing the target edit, can perform sophisticated non-rigid edits resulting in a high-resolution image output which aligns well with the target text, while preserving the overall structure, and composition of the original image. Thus, we combined approaches presented by two prior methods in addition to experimenting on new data to create a new end to end pipeline which achieves **Text- Conditioned Subject Guided Image Generation** distinguishes our project within the landscape of image editing and generation and our pipeline also shows promising results.
+
+### Rationale for Success
+* Leveraging the strengths of both Stable Diffusion V1.5 for its latent space manipulation and ControlNet for precise pose transfer, our method integrates an Appearance Control Module (ACM) and an Appearance-Disentangled Pose Control Module (ADPCM) to finely tune the balance between maintaining the subject's appearance and accurately transferring poses. This dual-module strategy effectively addresses the challenges of preserving identity and characteristic details during pose alterations, a significant advancement over previous methods that couldn't achieve identity-aware diffusion.
+ * Central to this methodology is the `ControlledUnetModelAttnPose`, which employs dynamic cross-attention mechanisms and spatial transformers to ensure modifications are contextually coherent. This not only enhances the model's ability to focus on specific image regions dictated by the pose and appearance controls but also facilitates a more flexible interchange of information among distant pixels, elevating the quality and precision of the output images.
+* Moreover, the Text Guided Enhancement Module introduces a novel aspect to our project overcoming a gap that previous methods faced, enabling semantic editing that goes beyond structural adjustments to include stylistic and attribute changes as directed by textual prompts. This module's ability to interpolate between the original image description and the desired edits allows for semantically meaningful modifications, aligning the final output closely with user intentions.
+
 
 ## Experiments and Results
-
-(Work done for Project Update-1)
-Following is a summary of all the approaches we tried, what we observed, and the challenges faced.
 
 ### Dataset
 
