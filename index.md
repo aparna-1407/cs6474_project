@@ -21,7 +21,7 @@ layout: default
 5. [Results](#results)
 6. [Discussion](#discussion)
 7. [Challenges](#challenges)
-8. [Contribution](#contribution)
+8. [Team Member Contribution](#team-member-contribution)
 8. [References](#references)
 
 ## Introduction
@@ -265,7 +265,7 @@ The metric of success we can use on our finally developed model is:
   
 
 
-## Contribution
+## Team Member Contribution
 
 | Tasks | Member |
 |:------|:-------|
