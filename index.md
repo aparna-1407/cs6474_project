@@ -274,7 +274,7 @@ The metric of success we can use on our finally developed model is:
 | Finetune ControlNet with the Appearance Control Module, freezing the Auxiliary U-Net to preserve appearance, thus creating an Appearance Disentangled Pose Control Module. | Poojitha |
 | Understand and incorporate text-guided enhancements via the InstructPix2Pix module of SD. | Aparna |
 | Evaluate the entire model's results based on the decided metrics. | Shubham |
-| Examine the model's generalizability on other datasets, such as the frames from the [TikTok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset) | Aparna and Poojitha|
+| Examine the model's generalizability on other datasets | Aparna and Poojitha|
 | Update the website and maintain the repository. | All |
 
 
