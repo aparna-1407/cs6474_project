@@ -4,7 +4,11 @@ layout: default
 # PoseMaster Fusion: Transforming Images by capturing Pose Dynamics
 ## Contents
 1. [Introduction](#introduction)
+  * [Project Description](##project-description)
+  * [Motivation](###why-is-there-a-need-for-such-a-model-?)
 2. [Related Work](#related-work)
+  * [Explaining Context](##explaining-context)
+  * [Motivation](###why-is-there-a-need-for-such-a-model-?)
 3. [Approach](#approach)
 4. [Experiments and Results](#experiments-and-results)
 5. [Future Steps](#future-steps)
@@ -12,6 +16,7 @@ layout: default
 7. [References](#references)
 
 ## Introduction
+### Project Description
 <p align="justify">
 PoseMaster Fusion is a diffusion based model for 2D human pose re-targeting. Specifically, given a reference image, the model aims to generate a set of new images of the person by controlling the poses and other features such as the style while keeping the identity unchanged. At its core, this project seeks to revolutionize the way we interact with and manipulate images, providing users with unprecedented control over the pose dynamics of their digital images. By leveraging the ability of control nets to understand and map poses from reference images or doodles, and harmonizing this with the generative capabilities of stable diffusion models, Pose Master Fusion attempts to synthesize images disentangling appearance from pose and style. 
 </p>
