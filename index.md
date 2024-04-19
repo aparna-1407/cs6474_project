@@ -213,6 +213,11 @@ We will aim to address this issue with a improved pose-transfer model that we wi
 </p>
 
 **Experiment 3: Identity-aware Pose Retargeting**
+* We use the pre-trained [MagicDance](https://github.com/Boese0601/MagicDance) model which was originally to be used for re-targeting source images to videos given a pose sequence for the video frames. We re-purpose this model to do pose-transfer for a single source image given a reference image for the pose.
+
+* To achieve this, we first use [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) to extract the pose-map for the body, face, and hands from the given reference image, and then use a modified pipeline of the MagicDance model to generate the pose-transferred image. 
+
+* [#TODO: add some comments on the experiment observations and results]
 
 **Experiment 4: Text Conditioned image Editing**
 * Loading in a pretrained Stable Diffusion v1.4 model, the diffusion process is performed in the latent space (of size 4ˆ64ˆ64) of its pre-trained autoencoder, working with 512ˆ512-pixel images.
