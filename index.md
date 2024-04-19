@@ -13,10 +13,16 @@ layout: default
   * [Overall Pipeline- Method Overview](#overall-pipeline)
   * [Contribution](#contribution)
   * [Rationale for Success- Intuition](#rationale-for-success)
-4. [Experiments and Results](#experiments-and-results)
-5. [Future Steps](#future-steps)
-6. [Contribution](#contribution)
-7. [References](#references)
+4. [Experiments Setup](#experiments-setup)
+  * [Experiments](#experiments)
+  * [Input Description](#input-data)
+  * [Desired Output](#output-expected)
+  * [Metrics](#metrics)
+5. [Results](#results)
+6. [Discussion](#discussion)
+7. [Challenges](#challenges)
+8. [Contribution](#contribution)
+9. [References](#references)
 
 ## Introduction
 ### Project Description
@@ -153,15 +159,7 @@ input image to be edited and a single text prompt describing the target edit, ca
 * Moreover, the Text Guided Enhancement Module introduces a novel aspect to our project overcoming a gap that previous methods faced, enabling semantic editing that goes beyond structural adjustments to include stylistic and attribute changes as directed by textual prompts. This module's ability to interpolate between the original image description and the desired edits allows for semantically meaningful modifications, aligning the final output closely with user intentions.
 
 
-## Experiments and Results
-
-### Dataset
-
-**[Deep Fashion](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)** 
-<p> 
-  We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. 
-</p>
-
+## Experiment Setup
 ### Experiments
 
 #### Using the prior knowledge of ControlNet and Stable Diffusion
@@ -187,7 +185,7 @@ This pipeline uses the OpenPose ControlNet module along with SDv1.5 in half prec
 
 However, we want to pose transfer for a specific given source image. Mentioned below are a couple of methods we tried to achieve this.
 
-**Method 1: Stable Diffusion ControlNet Reference Pipeline**
+**Experiment 1: Stable Diffusion ControlNet Reference Pipeline**
 
 * We create a custom pipeline that hacks the default `StableDiffusionControlNetPipeline` from the `diffusers` library to allow image generation using an additional reference image (source image) along with the pose and text prompt inputs. 
 
@@ -199,7 +197,7 @@ However, we want to pose transfer for a specific given source image. Mentioned b
 <img width="1413" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/b08ad061-79e7-4926-bf73-4cb5e7c9b9d8">
 </p>
 
-**Method 2: IP-Adapter for ControlNet**
+**Experiment 2: IP-Adapter for ControlNet**
 
 * [IP-Adapter](https://arxiv.org/pdf/2308.06721.pdf) is a lightweight and efficient method to add image prompt capability to pre-trained text-to-image diffusion models. It employs a decoupled cross-attention mechanism that separately processes text and image features, allowing for multimodal image generation. With only 22M parameters, IP-Adapter achieves comparable results to fully fine-tuned models and can be easily integrated with existing structural control tools. This makes it an ideal candidate for getting a baseline model for our use case.
 
@@ -214,16 +212,37 @@ We will aim to address this issue with a improved pose-transfer model that we wi
 <img width="1280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/8b5dca3e-ce3e-4914-9604-850838ceb8e1">
 </p>
 
+**Experiment 3: Identity-aware Pose Retargeting**
 
+**Experiment 4: Text Conditioned image Editing**
+* Loading in a pretrained Stable Diffusion v1.4 model, the diffusion process is performed in the latent space (of size 4ˆ64ˆ64) of its pre-trained autoencoder, working with 512ˆ512-pixel images.
+* We optimize the latent space by freezing the SD backbone and finetuning the CLIPEncoder for 1000 steps with a learning rate of 2e^3 using Adam. T
+* Then, we fine-tune the diffusion model after freezing the CLIPEncoder for 1500 steps with a learning rate of 5e^7 using Adam.
+![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/517ca014-e1ac-43f8-b644-e7dfd58d2ebb)
+![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/167814f7-5747-4123-9521-ba78e721af95)
+
+### Input Description
+#### Dataset
+
+**[Deep Fashion](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)** 
+<p> 
+  We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. 
+</p>
+### Expected Output
 
 
 ### Metrics
-We plan to conduct a comprehensive evaluation of the finally developed model using the following metrics.
+The metric of success we can use on our finally developed model is:
  * [Structural Similarity Index Measure(SSIM)](https://arxiv.org/pdf/2004.01864.pdf)
- * [Learned Perceptual Image Patch Similarity(LPIPS)](https://arxiv.org/pdf/2401.02414.pdf)
- * [Fréchet Inception Distance (FID)](https://huggingface.co/docs/diffusers/en/conceptual/evaluation)
- * [Clip score](https://huggingface.co/docs/diffusers/en/conceptual/evaluation)
-   
+   * The Structural Similarity Index Measure (SSIM) is an advanced metric used to assess the quality of images and videos, particularly in comparison to a reference image. Unlike simpler metrics like Mean Squared Error (MSE) or Peak Signal-to-Noise Ratio (PSNR) that compute absolute errors, SSIM considers changes in structural information, texture, luminance, and contrast, which are more aligned with human visual perception.
+   * While performing pose transfer, it’s crucial to compare the output against a reference (either the target pose or the original image) to ensure the transfer's accuracy and quality. SSIM allows for this comparison in a way that reflects human perception, making it an excellent tool for evaluating the success of pose transfers in maintaining the appearance of the subject across transformations.
+   * Pose transfer inherently involves significant structural changes to the subject in the image. SSIM's emphasis on structural information makes it particularly suitable for assessing how well these changes preserve the naturalness and coherence of the image compared to the reference. It helps in quantifying the effectiveness of ControlNet in transferring poses without introducing distortions or artifacts that could degrade the image quality.
+
+**Implications of a High SSIM:**
+ * Original Appearance is preserved.
+ * Pose alignment but also maintain high perceptual quality.
+ * Better user satisfaction with the pose-transferred images.
+
 ## Future Steps
 
 | Tasks | Anticipated Date of Completion |
