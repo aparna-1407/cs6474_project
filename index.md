@@ -272,6 +272,8 @@ The metric of success we can use on our finally developed model is:
 
 ### Comparison with Baseline
 The existing methods we compare with are Stable Diffusion ControlNet Reference Pipeline and IP-adapter for ControlNet.
+![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/57be040f-b27e-41dd-86b6-69c3e14d8bfc)
+The results show that our final architecture outperforms existing baselines, it achieves accurate pose transfer whilst retaining the identity of the source image greatly.
 
 ### Performance
 The metric is mainly applicable to Identity-aware Pose Retargeting where we try to compare the generated image with the source to ensure the identity of the original image is preserved considerably. 
