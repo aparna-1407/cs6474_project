@@ -282,11 +282,11 @@ The metric is mainly applicable to Identity-aware Pose Retargeting where we try 
 </p>
 
 The reported SSIM values for the above poses on a source image from the Tiktok Dataset are:
-
-<p align="center"> 
-<img width="280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/7955fb1c-ab50-4146-9aa4-d76f09a20e49">
-</p>
- 
+```
+SSIM for pose1: 0.648
+SSIM for pose2: 0.579
+SSIM for pose3: 0.712
+```
 The values are close to 1, which shows that are model does a good job in preserving the identity of the original image while transfering the pose.
 
 ## Discussion
@@ -302,7 +302,9 @@ The values are close to 1, which shows that are model does a good job in preserv
 * We also felt there was a dearth of good human pose datasets. A dataset with a lot of images of the same person in different poses would be ideal for pose transfer tasks, such datasets were scarce or not diverse enough, impacting our model's generalizability. Using Youtube and TikTok Video Frames, which is the current solution, results in poor quality of results due to occlusions and blur.
 * Achieving a balance between maintaining the original image's identity and characteristics while accurately transferring new poses was challenging. Ensuring that the model could handle various poses without losing the subject's essence required careful tuning of model parameters and innovative use of attention mechanisms.
 * Integrating ControlNet for pose transfer with existing frameworks like Stable Diffusion presented a significant technical challenge. Ensuring compatibility, optimizing data flow, and maintaining performance across different components of our pipeline required a deep understanding of each model's inner workings and considerable trial and error.
+  
 **Reflection**
+
   These challenges, while daunting, spurred innovation and collaboration within our team. They pushed us to explore novel solutions, delve deeper into the theoretical underpinnings of our work, and refine our approach through iterative testing and learning. The project's hurdles have prepared us better for future endeavors in the field of AI and image synthesis, highlighting the importance of resilience, creativity, and rigorous scientific inquiry in overcoming obstacles.
   If we were to start over, we would probably start sooner and collaborate more often to ensure steady progress over the project. We would also make better choices of datasets, our prepare our own dataset with a collection of clear, diverse stock images.
   
