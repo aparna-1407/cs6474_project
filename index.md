@@ -276,10 +276,13 @@ The existing methods we compare with are Stable Diffusion ControlNet Reference P
 ### Performance
 The metric is mainly applicable to Identity-aware Pose Retargeting where we try to compare the generated image with the source to ensure the identity of the original image is preserved considerably. 
 ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/80c27729-f000-4b63-8f22-63dc3f386993)
+
 The reported SSIM values for the above poses on a source image from the Tiktok Dataset are:
+
 <p align="center"> 
 <img width="280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/7955fb1c-ab50-4146-9aa4-d76f09a20e49"
  </p>
+ 
 The values are close to 1, which shows that are model does a good job in preserving the identity of the original image while transfering the pose.
 
 ## Discussion
