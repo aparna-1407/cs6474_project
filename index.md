@@ -19,6 +19,9 @@ layout: default
   * [Desired Output](#output-expected)
   * [Metrics](#metrics)
 5. [Results](#results)
+  * [Key Results](#final-pipeline-results)
+  * [Baseline Comparison](#comparison-with-baseline)
+  * [Performance](#performance)
 6. [Discussion](#discussion)
 7. [Challenges](#challenges)
 8. [Team Member Contribution](#team-member-contribution)
@@ -226,26 +229,22 @@ We will aim to address this issue with a improved pose-transfer model that we wi
 ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/517ca014-e1ac-43f8-b644-e7dfd58d2ebb)
 ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/167814f7-5747-4123-9521-ba78e721af95)
 
-### Input Description
-Our method’s input is a single image as the source image, another image to transfer pose from, and a simple text prompt describing the desired edit, and aims to apply this edit while preserving a maximal amount of details from the image. We use the Deep Fash dataset (https://github.com/yumingj/DeepFashion-MultiModal) that contain the images of various models in various poses, along with text annotations that help build our method. 
-
-There are 44,096 images from DeepFashion dataset, each image is of size 750×1101 and each image is of jpg format. These images occupy 5.4 GB of size. The dataset also contain textual captions for each image in json format occupying 11 MB of disk space.  
-
-The dataset contains labels for various images categorized based on the outfit categories (Denim, Dresses etc.) of the fashion models. Every image has manual annotations for various attributes such as clothes, shapes and textures, dense poses, and textual description for each image as well.
-
-
-#### Dataset
-
-**[Deep Fashion](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)** 
-<p> 
-  We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap. 
-</p>
+### Input Data
+* Our method’s input is a single image as the source image, another image to transfer pose from, and a simple text prompt describing the desired edit, and aims to apply this edit while preserving a maximal amount of details from the image.
+* The ACM and ADPCM is trained and finetuned respectively on the [Tiktok dataset](https://www.kaggle.com/datasets/yasaminjafarian/tiktokdataset). The Text Conditioned Image Editing uses the existing knowledge of Latent Diffusion Models
+  * The TikTok dataset aims to provide data on high fidelity human depths by leveraging a collection of 350 single-person social media dance videos, which are 10-15 seconds long, scraped from the TikTok.
+  * The videos are then broken down into their RGB images at 30 frame per second to avoid motion blur, resulting in around 160K images.  
+* For our experiments and results, we have finetuned and worked using the [Deep Fashion dataset](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html) that contain the images of various models in various poses, along with text annotations that help build our method. 
+  * There are 44,096 images from DeepFashion dataset, each image is of size 750×1101 and each image is of jpg format. These images occupy 5.4 GB of size. The dataset also contain textual captions for each image in json format occupying 11 MB of disk space.  
+  * The dataset contains labels for various images categorized based on the outfit categories (Denim, Dresses etc.) of the fashion models. Every image has manual annotations for various attributes such as clothes, shapes and textures, dense poses, and textual description for each image as well.
+  * We use the in-shop retrieval subset of the Deep Fashion dataset which consists of 52,712 high-resolution images of fashion models with diverse backgrounds,viewpoints,and lighting conditions. It contains the images of the same model available in different poses thus enabling the finetuning and training stages we plan to execute. We extract the skeletons using OpenPose. The model ID of the training and testing sets donot overlap.
+* We have also used Self-collected Out-of-Domain Images from online resources. We use them to test our method’s generalization ability to in-the-wild appearance.
 
 ### Expected Output
 
 <img width="912" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/8c49e01c-8e5c-48c4-b130-12deb84f7dc8">
 Here is the expected output of our model.
-The output of our model is an image that reflects the text prompt and also adheres to the pose of the reference image. 
+The output of our model would be an image that reflects the text prompt and also adheres to the pose of the reference image. 
 
 ### Metrics
 The metric of success we can use on our finally developed model is:
@@ -260,29 +259,13 @@ The metric of success we can use on our finally developed model is:
  * Better user satisfaction with the pose-transferred images.
 
 ## Results
-TODO kekw
 
-# Baseline Comparison
+### Final Pipeline Results
+<p align="center"> 
+<img width="1280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/f20325e9-6a77-477d-9da3-b100d0aafa40">
+</p>
 
-
-
-| Original Image | Reference Pose | Applying just pose transfer | Text Prompt-1+Pose transfer | Text Prompt-2+Pose transfer  |
-|----------------|----------------|-----------------------------|-----------------------------|-----------------------------|
-| ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/5d5b77b7-2f16-425b-bf17-83839b6acf27) |  ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/0fe2ed57-3437-4a3b-a078-b1db7dfb1862) |  ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/ca1bddeb-4791-4c16-9496-662c9b1f1a32) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/1b2f7fa3-fbf6-4f24-bdeb-a6910ffe0ab6) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/e9d6a73b-dd75-4646-a216-10d560c5e8d2)
-|![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/5d5b77b7-2f16-425b-bf17-83839b6acf27) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/37399ec4-265a-4895-8a5f-84f14f5bf576) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/b1320033-14b5-4bd4-b003-b8b73ad36c35) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/361b8a7f-4d01-4443-82f1-1840ddc54a30) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/0a3ddda3-3503-4edd-8b14-a94d1e4d710c)
- |
-
-# Key result performance
-
-We performed various experiments to improve the pose transfer with text based editing mainly, we experimented with various methods such as
-
-- Stable Diffusion ControlNet Reference Pipeline 
-- IP-Adapter for ControlNet 
-- Identity-aware Pose Retargeting
-- Text Conditioned image Editing
-
-In each method, we had found different limitations. 
-The first experiment we did (Stable Diffusion ControlNet Reference Pipeline) could not produce 
+### Comparison with Baseline
 
 ## Discussion
 * We propose a novel image editing method called `PoseMaster Fusion` which edits images by transfering poses and making edits conditioned by text prompts. To that end, we utilize a pre-trained text-to-image diffusion model, optimize and finetune it to fit the image better and interpolate between the embedding representing the image and the target text embedding, obtaining a semantically meaningful mixture of them thus resulting in accurately edited images. These are then fed into a Appearance Disentangled Pose Control Module along with the pose that is to be transfered to seamlessly incorporate the pose and facial expression while enabling the generation of consistent inages without any further fine-tuning. This Text Conditioned Subject Driven Image Editing Mechanism is non rigid, preserves appearance, quick and accurate.
