@@ -272,7 +272,11 @@ The metric of success we can use on our finally developed model is:
 
 ### Comparison with Baseline
 The existing methods we compare with are Stable Diffusion ControlNet Reference Pipeline and IP-adapter for ControlNet.
-![image](https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/57be040f-b27e-41dd-86b6-69c3e14d8bfc)
+
+<p align="center"> 
+<img width="1280" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/93538009/57be040f-b27e-41dd-86b6-69c3e14d8bfc">
+</p>
+
 The results show that our final architecture outperforms existing baselines, it achieves accurate pose transfer whilst retaining the identity of the source image greatly.
 
 ### Performance
