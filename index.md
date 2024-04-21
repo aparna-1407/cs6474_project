@@ -245,7 +245,7 @@ The dataset contains labels for various images categorized based on the outfit c
 
 <img width="912" alt="image" src="https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/8c49e01c-8e5c-48c4-b130-12deb84f7dc8">
 Here is the expected output of our model.
-The output of our model would be an image that reflects the text prompt and also adheres to the pose of the reference image. 
+The output of our model is an image that reflects the text prompt and also adheres to the pose of the reference image. 
 
 ### Metrics
 The metric of success we can use on our finally developed model is:
@@ -261,12 +261,28 @@ The metric of success we can use on our finally developed model is:
 
 ## Results
 TODO kekw
+
+# Baseline Comparison
+
+
+
 | Original Image | Reference Pose | Applying just pose transfer | Text Prompt-1+Pose transfer | Text Prompt-2+Pose transfer  |
 |----------------|----------------|-----------------------------|-----------------------------|-----------------------------|
 | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/5d5b77b7-2f16-425b-bf17-83839b6acf27) |  ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/0fe2ed57-3437-4a3b-a078-b1db7dfb1862) |  ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/ca1bddeb-4791-4c16-9496-662c9b1f1a32) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/1b2f7fa3-fbf6-4f24-bdeb-a6910ffe0ab6) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/e9d6a73b-dd75-4646-a216-10d560c5e8d2)
 |![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/5d5b77b7-2f16-425b-bf17-83839b6acf27) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/37399ec4-265a-4895-8a5f-84f14f5bf576) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/b1320033-14b5-4bd4-b003-b8b73ad36c35) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/361b8a7f-4d01-4443-82f1-1840ddc54a30) | ![image](https://github.com/aparna-1407/cs6476_project_team18/assets/13400691/0a3ddda3-3503-4edd-8b14-a94d1e4d710c)
  |
 
+# Key result performance
+
+We performed various experiments to improve the pose transfer with text based editing mainly, we experimented with various methods such as
+
+- Stable Diffusion ControlNet Reference Pipeline 
+- IP-Adapter for ControlNet 
+- Identity-aware Pose Retargeting
+- Text Conditioned image Editing
+
+In each method, we had found different limitations. 
+The first experiment we did (Stable Diffusion ControlNet Reference Pipeline) could not produce 
 
 ## Discussion
 * We propose a novel image editing method called `PoseMaster Fusion` which edits images by transfering poses and making edits conditioned by text prompts. To that end, we utilize a pre-trained text-to-image diffusion model, optimize and finetune it to fit the image better and interpolate between the embedding representing the image and the target text embedding, obtaining a semantically meaningful mixture of them thus resulting in accurately edited images. These are then fed into a Appearance Disentangled Pose Control Module along with the pose that is to be transfered to seamlessly incorporate the pose and facial expression while enabling the generation of consistent inages without any further fine-tuning. This Text Conditioned Subject Driven Image Editing Mechanism is non rigid, preserves appearance, quick and accurate.
